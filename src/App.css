@@ -1,0 +1,1016 @@
+/* =========================================================
+   THEME AND BASE
+   ========================================================= */
+   :root {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1f2937;
+    background: #f4f6f8;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    --navy: #002f6c;
+    --blue: #2563eb;
+    --green: #16a34a;
+    --red: #dc2626;
+    --amber: #d97706;
+    --slate-950: #07111f;
+    --slate-900: #0f172a;
+    --slate-800: #1e293b;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-500: #64748b;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --surface: #ffffff;
+    --border: #d7dee8;
+    --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 15px 36px rgba(15, 23, 42, 0.13);
+  }
+  
+  * { box-sizing: border-box; }
+  html, body, #root { min-height: 100%; }
+  html { background: #f4f6f8; }
+  body { margin: 0; background: #f4f6f8; color: #1f2937; }
+  button, input, select, textarea { font: inherit; }
+  h1, h2, h3, p { overflow-wrap: anywhere; }
+  h1 { margin: 0; padding: 16px; background: var(--navy); color: #fff; font-size: 24px; }
+  h2, h3 { margin-top: 0; }
+  section { margin: 12px; padding: 12px; background: #fff; border-radius: 10px; }
+  button { min-height: 40px; padding: 10px 14px; border: 0; border-radius: 8px; background: var(--blue); color: #fff; font-weight: 800; cursor: pointer; transition: filter 150ms ease, transform 150ms ease, background-color 150ms ease; }
+  button:hover { filter: brightness(.95); }
+  button:active { transform: translateY(1px); }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid rgba(37, 99, 235, .3); outline-offset: 2px; }
+  button:disabled { background: #9ca3af; cursor: not-allowed; filter: none; transform: none; }
+  .form-control, .search-input, .bid-input { width: 100%; max-width: 420px; min-height: 42px; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #111827; font-size: 14px; }
+  .form-label { display: block; margin: 10px 0 6px; font-weight: 800; }
+  .search-input { margin-bottom: 12px; }
+  .proposal-actions, .bid-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .secondary-button { background: #64748b; }
+  .confirm-button { background: var(--green); }
+  .danger-button { background: var(--red); }
+  .compact-button, .small-button { min-height: 32px; padding: 6px 9px; font-size: 12px; }
+  .budget { font-size: 20px; font-weight: 800; }
+  
+  /* =========================================================
+     NAVIGATION
+     ========================================================= */
+  .app-nav { display: flex; gap: 8px; padding: 12px; background: #111827; flex-wrap: wrap; }
+  .app-nav button { background: #374151; }
+  .app-nav .danger-button { background: var(--red); }
+  .dg-selector { display: flex; align-items: center; gap: 8px; padding: 12px; background: #f9fafb; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .dg-selector span { font-weight: 800; }
+  .active-dg-button { background: var(--green) !important; }
+  
+  /* =========================================================
+     TABLES
+     ========================================================= */
+  .table-container { width: 100%; max-height: 420px; overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+  table { width: 100%; min-width: 850px; border-collapse: collapse; font-size: 14px; }
+  thead { position: sticky; top: 0; z-index: 2; background: var(--navy); color: #fff; }
+  th, td { padding: 9px 8px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody tr:hover { background: #e8f2ff; }
+  .empty-row { color: #9ca3af; background: #fafafa; }
+  .empty-row td { height: 34px; }
+  .status-active, .status-finished { display: inline-block; padding: 4px 8px; border-radius: 999px; font-weight: 800; }
+  .status-active { background: #dcfce7; color: #166534; }
+  .status-finished { background: #e5e7eb; color: #374151; }
+  
+  /* =========================================================
+     LOGIN AND FEEDBACK
+     ========================================================= */
+  .login-screen, .loading-screen { max-width: 700px; margin: 24px auto; }
+  .login-screen h2 { font-size: 28px; }
+  .login-screen p { font-size: 18px; line-height: 1.5; }
+  .existing-dgs { margin-top: 24px; padding: 16px; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; }
+  .finished-box, .pending-box, .warning-card { padding: 16px; margin: 12px; border-radius: 10px; }
+  .finished-box { background: #f3f4f6; border: 2px solid #9ca3af; color: #374151; }
+  .pending-box { background: #eff6ff; border: 2px solid var(--blue); color: #1e3a8a; }
+  .warning-card { max-width: 600px; background: #fff7ed; border: 2px solid #f97316; }
+  .dg-login-page { min-height: calc(100vh - 56px); display: flex; align-items: flex-start; justify-content: center; padding: 24px 16px; background: radial-gradient(circle at top right, rgba(37,99,235,.13), transparent 35%), #f4f6f8; }
+  .dg-login-card { width: min(620px, 100%); margin: 0; padding: 24px; background: #fff; border: 1px solid #dbe3ee; border-radius: 16px; box-shadow: var(--shadow-md); }
+  .dg-login-heading > span { color: var(--blue); font-size: 12px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+  .dg-login-heading h2 { margin: 5px 0 7px; color: var(--slate-900); font-size: 30px; }
+  .dg-login-heading p { margin: 0; color: var(--slate-500); line-height: 1.5; }
+  .dg-login-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 22px 0 18px; padding: 5px; background: #e9eef5; border-radius: 11px; }
+  .dg-login-tabs button { background: transparent; color: var(--slate-600); }
+  .dg-login-tabs button:hover { background: #dbe3ee; }
+  .dg-login-tabs .dg-login-tab-active, .dg-login-tabs .dg-login-tab-active:hover { background: var(--navy); color: #fff; box-shadow: 0 5px 12px rgba(0,47,108,.18); }
+  .dg-login-form { display: flex; flex-direction: column; gap: 10px; }
+  .dg-login-form .form-control { max-width: none; }
+  .dg-login-form button { min-height: 46px; margin-top: 8px; }
+  .dg-login-empty-message { margin: 12px 0 0; padding: 12px; background: #f8fafc; color: var(--slate-500); border-radius: 8px; text-align: center; }
+  
+  /* =========================================================
+     DG INTERFACE
+     ========================================================= */
+  .dg-account-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 12px; padding: 16px 18px; background: #fff; border: 1px solid #dbe3ee; border-radius: 12px; box-shadow: var(--shadow-sm); }
+  .dg-account-header > div { min-width: 0; }
+  .dg-account-label { display: block; margin-bottom: 3px; color: var(--slate-500); font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+  .dg-account-header h1 { margin: 0; padding: 0; overflow: hidden; background: transparent; color: var(--slate-900); font-size: clamp(22px, 5vw, 30px); line-height: 1.1; text-overflow: ellipsis; white-space: nowrap; }
+  .dg-logout-button { flex: 0 0 auto; min-height: 40px; padding: 9px 14px; background: #fff; color: var(--red); border: 1px solid #fca5a5; border-radius: 9px; font-size: 13px; font-weight: 800; }
+  .dg-logout-button:hover { background: #fef2f2; border-color: #ef4444; }
+  .dg-status-strip { display: grid; grid-template-columns: repeat(6, minmax(70px,1fr)) auto; gap: 8px; align-items: center; margin: 12px; padding: 10px; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+  .dg-status-item { display: flex; flex-direction: column; gap: 2px; padding: 8px; background: #f8fafc; border-radius: 8px; text-align: center; }
+  .dg-status-item span { color: #6b7280; font-size: 12px; font-weight: 800; }
+  .dg-status-item strong { color: #111827; font-size: 15px; }
+  .dg-turn-pill { padding: 10px 14px; border-radius: 999px; background: var(--green); color: #fff; font-weight: 800; text-align: center; white-space: nowrap; }
+  .tabs { display: flex; gap: 8px; margin: 12px; overflow-x: auto; }
+  .tabs button { flex: 0 0 auto; }
+  
+  .auction-card, .mobile-auction-box { margin-top: 12px; padding: 16px; background: #eff6ff; border: 2px solid var(--blue); border-radius: 12px; }
+  .auction-topline { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .auction-live-pill, .auction-type-pill, .leading-bid-pill { padding: 6px 10px; border-radius: 999px; font-size: 13px; font-weight: 800; }
+  .auction-live-pill { background: var(--red); color: #fff; text-transform: uppercase; }
+  .auction-type-pill { background: #dbeafe; color: #1e40af; }
+  .leading-bid-pill { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
+  .auction-player-name { margin: 6px 0 14px; color: #064e3b; font-size: 28px; }
+  .auction-details-grid, .modal-details-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .auction-details-grid div, .modal-details-grid div { padding: 10px; background: #f8fafc; border-radius: 8px; }
+  .auction-details-grid span, .modal-details-grid span { display: block; margin-bottom: 4px; color: #6b7280; font-size: 12px; font-weight: 800; }
+  .current-bid-panel { margin-top: 14px; padding: 14px; text-align: center; background: #dcfce7; border: 2px solid var(--green); border-radius: 12px; }
+  .current-bid-panel span { display: block; color: #166534; font-weight: 800; }
+  .current-bid-panel strong { color: #166534; font-size: 42px; }
+  .countdown-mobile { padding: 10px; border-radius: 8px; background: #fee2e2; color: var(--red); font-size: 24px; font-weight: 800; text-align: center; }
+  .primary-bid-button { min-width: 140px; padding: 18px 28px; border-radius: 14px; background: var(--green); font-size: 28px; }
+  .custom-bid-area { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; margin-left: 18px; }
+  .sticky-bid-actions { position: sticky; bottom: 8px; z-index: 50; padding: 12px; background: rgba(255,255,255,.97); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 -6px 20px rgba(17,24,39,.15); }
+  .auction-closed-message, .current-leader-message { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; padding: 14px; border-radius: 12px; text-align: center; }
+  .auction-closed-message { background: #fee2e2; border: 2px solid var(--red); color: #991b1b; }
+  .current-leader-message { background: #fef3c7; border: 2px solid #f59e0b; color: #92400e; }
+  .pagination-bar, .list-filter-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 10px 0 12px; padding: 10px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; }
+  .list-filter-bar { justify-content: space-between; }
+  .availability-filter, .page-selector { display: flex; align-items: center; gap: 8px; color: #374151; font-weight: 800; }
+  .availability-filter input { width: 18px; height: 18px; accent-color: var(--green); }
+  .page-selector select { padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; background: #fff; }
+  .filter-result-count, .pagination-result-count { color: #6b7280; font-size: 14px; font-weight: 800; }
+  .modal-overlay { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(17,24,39,.65); }
+  .proposal-modal { width: 100%; max-width: 520px; padding: 20px; background: #fff; border-radius: 14px; box-shadow: 0 20px 40px rgba(0,0,0,.25); }
+  .modal-choice-name { margin: 8px 0 16px; color: var(--navy); font-size: 26px; font-weight: 800; }
+  
+  /* =========================================================
+     ADMIN
+     ========================================================= */
+  .admin-page { min-height: 100vh; }
+  .admin-status-bar { display: grid; grid-template-columns: repeat(4,minmax(130px,1fr)); gap: 10px; margin: 12px; padding: 12px; background: #111827; border-radius: 12px; color: #fff; }
+  .admin-status-item { display: flex; flex-direction: column; gap: 4px; padding: 10px; background: #1f2937; border-radius: 8px; }
+  .admin-status-item span { color: #9ca3af; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+  .admin-status-item strong { font-size: 17px; }
+  .admin-tabs { display: flex; gap: 8px; padding: 0 12px; margin-top: 16px; overflow-x: auto; }
+  .admin-tabs button { background: #e5e7eb; color: #374151; white-space: nowrap; }
+  .admin-tabs .admin-tab-active { background: var(--navy); color: #fff; }
+  .admin-tab-content { padding-bottom: 20px; }
+  .admin-tab-content section { box-shadow: 0 2px 8px rgba(17,24,39,.05); }
+  .admin-section-heading, .admin-card-heading, .admin-danger-zone, .admin-correction-card { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .next-dg-admin-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: #fef3c7; border: 2px solid #f59e0b; }
+  .next-dg-admin-card strong { color: #111827; font-size: 28px; }
+  .admin-proposal-card { background: #fffbeb; border: 2px solid #f59e0b; }
+  .admin-warning-pill, .admin-live-pill, .admin-auction-type, .admin-count-pill, .latest-attribution-label { display: inline-block; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; }
+  .admin-warning-pill { background: #f59e0b; color: #fff; }
+  .admin-live-pill { background: var(--red); color: #fff; }
+  .admin-auction-type, .admin-count-pill { background: #dbeafe; color: #1e40af; }
+  .admin-info-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(145px,1fr)); gap: 10px; }
+  .admin-info-grid > div { display: flex; flex-direction: column; gap: 4px; padding: 10px; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; }
+  .admin-info-grid span { color: #6b7280; font-size: 12px; font-weight: 800; }
+  .admin-auction-card { background: #eff6ff; border: 2px solid var(--blue); }
+  .admin-auction-layout { display: grid; grid-template-columns: 1fr minmax(220px,.45fr); gap: 16px; }
+  .admin-current-bid { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; background: #dcfce7; border: 2px solid var(--green); border-radius: 12px; }
+  .admin-current-bid > strong { color: #166534; font-size: 42px; }
+  .admin-primary-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .countdown-button { background: #7c3aed; }
+  .admin-danger-zone { margin-top: 20px; padding: 14px; background: #fef2f2; border: 1px solid #fca5a5; border-radius: 10px; }
+  .admin-empty-state { padding: 30px 18px; text-align: center; background: #f9fafb; border: 1px dashed #9ca3af; }
+  .admin-draft-order { display: grid; gap: 8px; padding: 0; list-style: none; }
+  .admin-draft-order li { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; padding: 12px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; }
+  .admin-draft-order li > span { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: var(--navy); color: #fff; border-radius: 50%; }
+  .admin-current-dg-order { background: #dcfce7 !important; border: 2px solid var(--green) !important; }
+  .admin-inline-form { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .admin-inline-form .form-control { flex: 1; min-width: 220px; }
+  .latest-attribution-row { background: #eff6ff !important; }
+  .latest-attribution-label { margin-left: 8px; background: var(--blue); color: #fff; }
+  .admin-correction-card { align-items: center; padding: 16px; background: #fff7ed; border: 2px solid #f97316; border-radius: 10px; }
+  .admin-success-card { padding: 16px; background: #ecfdf5; border: 2px solid var(--green); color: #166534; border-radius: 10px; }
+  .admin-danger-settings { background: #fef2f2; border: 2px solid var(--red); }
+  
+  /* =========================================================
+     TV DISPLAY: SHARED AND BETWEEN AUCTIONS
+     ========================================================= */
+  .display-root { min-height: 100vh; background: radial-gradient(circle at top right,rgba(29,78,216,.2),transparent 32%), linear-gradient(145deg,#07111f 0%,#0f1f35 52%,#081321 100%); color: #f8fafc; }
+  .tv-loading-state { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .tv-loading-card { min-width: min(520px,85vw); padding: 38px; text-align: center; background: rgba(15,31,53,.94); color: #fff; border-radius: 18px; }
+  .tv-loading-indicator { display: inline-block; width: 34px; height: 34px; border: 4px solid rgba(255,255,255,.2); border-top-color: #60a5fa; border-radius: 50%; animation: tv-loading-spin .9s linear infinite; }
+  @keyframes tv-loading-spin { to { transform: rotate(360deg); } }
+  .tv-between-screen { height: 100vh; display: grid; grid-template-rows: auto minmax(0,1fr) auto; gap: clamp(10px,1.3vh,18px); padding: clamp(14px,1.8vw,28px); overflow: hidden; }
+  .tv-status-header { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 12px 18px; background: rgba(15,31,53,.92); border: 1px solid rgba(148,163,184,.22); border-radius: 16px; box-shadow: 0 16px 40px rgba(0,0,0,.24); }
+  .tv-status-live { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .tv-status-live > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .tv-status-dot { width: 14px; height: 14px; flex: 0 0 14px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 7px rgba(34,197,94,.14), 0 0 18px rgba(34,197,94,.75); }
+  .tv-status-label { color: #94a3b8; font-size: clamp(11px,.85vw,14px); font-weight: 800; text-transform: uppercase; letter-spacing: .12em; }
+  .tv-status-live strong { color: #fff; font-size: clamp(17px,1.45vw,25px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tv-header-stats { display: flex; gap: 10px; }
+  .tv-header-stats > div { min-width: 112px; padding: 9px 14px; text-align: center; background: rgba(30,64,175,.2); border: 1px solid rgba(96,165,250,.22); border-radius: 11px; }
+  .tv-header-stats span { display: block; color: #93c5fd; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+  .tv-header-stats strong { color: #fff; font-size: 22px; }
+  .tv-dg-board { min-height: 0; display: grid; grid-template-rows: auto minmax(0,1fr); background: #f8fafc; border-radius: 18px; overflow: hidden; box-shadow: 0 22px 55px rgba(0,0,0,.28); }
+  .tv-board-title { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 10px 18px; background: linear-gradient(90deg,#f8fafc,#eef4ff); border-bottom: 1px solid #dbe3ee; }
+  .tv-board-title > div { display: flex; align-items: baseline; gap: 10px; }
+  .tv-board-title span { color: #64748b; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+  .tv-board-title strong { color: #0f172a; font-size: clamp(18px,1.4vw,25px); }
+  .tv-board-legend { padding: 5px 9px; background: #dbeafe; color: #1d4ed8 !important; border-radius: 999px; }
+  .tv-dg-table-wrapper { min-height: 0; height: 100%; overflow: hidden; }
+  .display-root table.tv-dg-table { width: 100%; height: 100%; min-width: 0; margin: 0; table-layout: fixed; border-collapse: collapse; background: #fff !important; color: #1e293b !important; }
+  .display-root table.tv-dg-table thead { position: static; background: #e8eef7 !important; color: #334155 !important; }
+  .display-root table.tv-dg-table th { padding: 6px 8px; background: #e8eef7 !important; color: #334155 !important; border-bottom: 1px solid #cbd5e1; text-align: center; font-size: clamp(10px,.72vw,13px); font-weight: 900; text-transform: uppercase; }
+  .display-root table.tv-dg-table td { padding: clamp(3px,.55vh,8px) clamp(5px,.55vw,10px); background: #fff !important; color: #1e293b !important; border-bottom: 1px solid #e7ebf0; text-align: center; font-size: clamp(12px,.95vw,17px); font-weight: 700; line-height: 1.05; }
+  .display-root table.tv-dg-table tbody tr:nth-child(even) td { background: #f8fafc !important; }
+  .display-root table.tv-dg-table tbody tr:hover td { background: inherit; }
+  .display-root .tv-rank-column { width: 4.5%; }
+  .display-root .tv-dg-table th:nth-child(2) { width: 21%; text-align: left; }
+  .display-root .tv-dg-table th:nth-child(3) { width: 11%; }
+  .display-root .tv-dg-table th:nth-child(10) { width: 10%; }
+  .display-root .tv-rank-cell span { display: inline-flex; align-items: center; justify-content: center; width: clamp(23px,1.9vw,32px); height: clamp(23px,1.9vw,32px); background: #e2e8f0; color: #334155; border-radius: 50%; }
+  .display-root .tv-dg-name-cell { overflow: hidden; text-align: left !important; text-overflow: ellipsis; }
+  .display-root .tv-dg-name-cell strong { color: #0f172a; font-size: clamp(13px,1.05vw,19px); }
+  .display-root .tv-budget-cell { color: #075985 !important; }
+  .display-root .tv-total-cell { color: #1d4ed8 !important; }
+  .display-root .tv-turn-badge { display: inline-block; margin-left: 8px; padding: 4px 9px; background: var(--green); color: #fff; border-radius: 999px; font-size: 11px; text-transform: uppercase; }
+  .display-root .tv-status-badge { display: inline-block; min-width: 55px; padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 900; text-transform: uppercase; }
+  .display-root .tv-status-active { background: #dcfce7; color: #166534; }
+  .display-root .tv-status-finished { background: #e2e8f0; color: #475569; }
+  .display-root .tv-current-dg-row td { background: #dcfce7 !important; color: #14532d !important; border-top: 2px solid #22c55e; border-bottom: 2px solid #22c55e; }
+  .display-root .tv-current-dg-row .tv-rank-cell span { background: var(--green); color: #fff; }
+  .display-root .tv-finished-dg-row:not(.tv-current-dg-row) td { background: #f1f5f9 !important; color: #64748b !important; }
+  .tv-dg-board-compact .tv-board-title { padding-block: 7px; }
+  .tv-dg-board-compact .tv-dg-table th { padding-block: 4px; }
+  .tv-dg-board-compact .tv-dg-table td { padding-block: 2px; font-size: clamp(10px,.78vw,14px); }
+  .tv-last-result { min-height: 76px; display: grid; grid-template-columns: minmax(145px,.8fr) minmax(240px,2fr) minmax(180px,1.2fr) minmax(150px,.8fr); overflow: hidden; background: linear-gradient(100deg,rgba(30,64,175,.95),rgba(22,101,52,.94)); border-radius: 16px; }
+  .tv-last-result > div { min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 3px; padding: 10px 16px; border-right: 1px solid rgba(255,255,255,.15); }
+  .tv-last-result span { color: #bfdbfe; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+  .tv-last-result strong { color: #fff; }
+  .tv-last-result-choice strong { overflow: hidden; font-size: clamp(17px,1.45vw,27px); text-overflow: ellipsis; white-space: nowrap; }
+  .tv-last-result-price strong { font-size: clamp(23px,2vw,38px); }
+  .tv-no-result { grid-column: 1 / -1; align-items: center; text-align: center; }
+  .tv-no-dgs-state { height: 100%; display: flex; align-items: center; justify-content: center; gap: 18px; padding: 30px; background: #f8fafc; color: #334155; }
+  .tv-no-dgs-state strong { color: #0f172a; font-size: clamp(24px,2.2vw,40px); }
+  
+  /* =========================================================
+     TV DISPLAY: ACTIVE AUCTION
+     ========================================================= */
+  .tv-auction-screen { min-height: 100vh; height: 100vh; display: grid; grid-template-rows: auto minmax(0,1fr); gap: clamp(12px,1.4vh,20px); padding: clamp(14px,1.6vw,26px); overflow: hidden; background: radial-gradient(circle at 10% 20%,var(--team-primary),transparent 34%), radial-gradient(circle at 88% 80%,color-mix(in srgb,var(--team-secondary) 22%,transparent),transparent 34%), linear-gradient(145deg,#07111f 0%,#0f1f35 58%,#081321 100%); color: #f8fafc; }
+  .tv-auction-header { min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 12px 18px; background: rgba(7,17,31,.88); border: 1px solid rgba(255,255,255,.14); border-radius: 16px; box-shadow: 0 14px 36px rgba(0,0,0,.26); }
+  .tv-auction-live-status { display: flex; align-items: center; gap: 14px; }
+  .tv-auction-live-dot { width: 14px; height: 14px; flex: 0 0 14px; background: #ef4444; border-radius: 50%; box-shadow: 0 0 0 7px rgba(239,68,68,.16), 0 0 18px rgba(239,68,68,.8); }
+  .tv-auction-live-status div, .tv-auction-header-choice { display: flex; flex-direction: column; gap: 3px; }
+  .tv-auction-live-status span, .tv-auction-header-choice span { color: #94a3b8; font-size: clamp(10px,.72vw,13px); font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+  .tv-auction-live-status strong, .tv-auction-header-choice strong { color: #fff; font-size: clamp(17px,1.3vw,24px); }
+  .tv-auction-header-choice { text-align: right; }
+  .tv-auction-layout { min-height: 0; display: grid; grid-template-columns: minmax(310px,.95fr) minmax(430px,1.5fr) minmax(260px,.75fr); gap: clamp(12px,1.3vw,22px); }
+  .tv-hockey-card { position: relative; min-height: 0; display: grid; grid-template-rows: auto minmax(0,1fr) auto auto; margin: 0; padding: 0; overflow: hidden; background: linear-gradient(155deg,var(--team-primary) 0%,color-mix(in srgb,var(--team-primary) 72%,#000) 52%,#07111f 100%); border: 3px solid color-mix(in srgb,var(--team-secondary) 75%,#fff); border-radius: 24px; box-shadow: 0 26px 60px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.22); }
+  .tv-hockey-card::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg,transparent 0%,rgba(255,255,255,.08) 43%,transparent 44%); }
+  .tv-card-background-mark { position: absolute; top: 18%; left: -18px; color: rgba(255,255,255,.07); font-size: clamp(90px,10vw,170px); font-weight: 900; letter-spacing: -.08em; transform: rotate(-90deg); pointer-events: none; }
+  .tv-card-top { position: relative; z-index: 2; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px; }
+  .tv-card-rank { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; background: rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.18); border-radius: 11px; }
+  .tv-card-rank span { color: #cbd5e1; font-size: 10px; font-weight: 900; text-transform: uppercase; }
+  .tv-card-rank strong { color: #fff; font-size: clamp(19px,1.6vw,28px); }
+  .tv-card-team-logo { width: clamp(58px,5vw,82px); height: clamp(58px,5vw,82px); display: flex; align-items: center; justify-content: center; }
+  .tv-card-team-logo strong { color: #fff; font-size: 20px; }
+  .tv-card-background-image { background-position: center; background-repeat: no-repeat; background-size: contain; }
+  .tv-card-player-visual { position: relative; z-index: 1; min-height: 0; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+  .tv-card-initials { position: absolute; inset: 12%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.16); font-size: clamp(70px,7vw,120px); font-weight: 900; }
+  .tv-card-player-image-background { position: absolute; inset: 0; z-index: 2; background-position: center bottom; background-repeat: no-repeat; background-size: contain; filter: drop-shadow(0 18px 18px rgba(0,0,0,.42)); }
+  .tv-card-team-logo-background { position: absolute; inset: 12%; z-index: 2; background-position: center; background-repeat: no-repeat; background-size: contain; filter: drop-shadow(0 18px 24px rgba(0,0,0,.34)); }
+  .tv-card-identity { position: relative; z-index: 3; padding: 14px 18px; background: linear-gradient(180deg,transparent,rgba(0,0,0,.82) 28%); }
+  .tv-card-identity span { color: var(--team-secondary); font-size: clamp(11px,.8vw,14px); font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+  .tv-card-identity h2 { margin: 3px 0; color: #fff; font-size: clamp(25px,2.2vw,42px); line-height: .98; text-transform: uppercase; }
+  .tv-card-identity p { margin: 0; color: #cbd5e1; font-size: clamp(12px,.9vw,16px); font-weight: 800; }
+  .tv-card-prediction { position: relative; z-index: 4; padding: 14px 16px 16px; background: rgba(7,17,31,.95); border-top: 1px solid rgba(255,255,255,.15); }
+  .tv-card-prediction-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+  .tv-card-prediction-title span { color: #fbbf24; font-size: clamp(11px,.8vw,14px); font-weight: 900; text-transform: uppercase; }
+  .tv-card-prediction-title strong { color: #cbd5e1; font-size: clamp(10px,.7vw,12px); }
+  .tv-card-prediction-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; }
+  .tv-card-prediction-grid > div { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 4px; background: rgba(255,255,255,.08); border-radius: 8px; }
+  .tv-card-prediction-grid span { color: #94a3b8; font-size: clamp(9px,.62vw,11px); font-weight: 900; }
+  .tv-card-prediction-grid strong { color: #fff; font-size: clamp(18px,1.35vw,25px); }
+  .tv-card-prediction-highlight { background: var(--amber) !important; }
+  .tv-card-prediction-highlight span, .tv-card-prediction-highlight strong { color: #fff; }
+  .tv-career-panel { min-height: 0; display: grid; grid-template-rows: auto minmax(0,1fr) auto; margin: 0; padding: clamp(16px,1.4vw,24px); overflow: hidden; background: rgba(248,250,252,.97); color: #0f172a; border-radius: 20px; box-shadow: 0 22px 48px rgba(0,0,0,.3); }
+  .tv-panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .tv-panel-heading span { color: #64748b; font-size: 11px; font-weight: 900; text-transform: uppercase; }
+  .tv-panel-heading h2 { margin: 3px 0 0; color: #0f172a; font-size: clamp(23px,1.7vw,32px); }
+  .tv-career-seasons-badge { padding: 6px 10px; background: #dbeafe; color: #1d4ed8 !important; border-radius: 999px; white-space: nowrap; }
+  .tv-career-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #475569; text-align: center; }
+  .tv-career-empty strong { color: #0f172a; font-size: 24px; }
+  .tv-career-chart { min-height: 0; display: grid; grid-template-rows: auto minmax(0,1fr); gap: 12px; padding: 14px 0; }
+  .tv-chart-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .tv-chart-header > div:first-child { display: flex; flex-direction: column; gap: 3px; }
+  .tv-chart-header > div:first-child span { color: #64748b; font-size: clamp(9px,.62vw,11px); font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+  .tv-chart-header > div:first-child strong { color: #0f172a; font-size: clamp(15px,1.05vw,20px); }
+  .tv-chart-legend { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+  .tv-chart-legend span { display: inline-flex; align-items: center; gap: 5px; color: #475569; font-size: clamp(9px,.62vw,11px); font-weight: 800; }
+  .tv-chart-legend span::before { content: ""; width: 10px; height: 10px; border-radius: 3px; }
+  .tv-legend-goals::before { background: #38bdf8; }
+  .tv-legend-assists::before { background: #6366f1; }
+  .tv-legend-points::before { background: var(--team-primary); }
+  .tv-legend-prediction::before { background: var(--amber); }
+  .tv-chart-area { min-height: 0; display: flex; align-items: stretch; justify-content: space-around; gap: clamp(8px,.8vw,15px); padding: 32px 10px 0; border-bottom: 2px solid #cbd5e1; }
+  .tv-chart-season { min-width: 0; flex: 1; display: grid; grid-template-rows: minmax(0,1fr) auto; gap: 7px; }
+  .tv-chart-bars { min-height: 0; display: flex; align-items: flex-end; justify-content: center; gap: clamp(3px,.35vw,7px); }
+  .tv-chart-bar { position: relative; width: min(24%,34px); min-width: 9px; border-radius: 6px 6px 0 0; box-shadow: 0 5px 12px rgba(15,23,42,.14); transition: height 250ms ease, filter 180ms ease; }
+  .tv-chart-bar:hover { filter: brightness(1.08); }
+  .tv-chart-bar span { position: absolute; top: -21px; left: 50%; transform: translateX(-50%); color: #334155; font-size: clamp(9px,.62vw,12px); font-weight: 900; white-space: nowrap; }
+  .tv-chart-bar-goals { background: linear-gradient(180deg,#7dd3fc,#0284c7); }
+  .tv-chart-bar-assists { background: linear-gradient(180deg,#a5b4fc,#4f46e5); }
+  .tv-chart-bar-points { background: linear-gradient(180deg,var(--team-secondary),var(--team-primary)); }
+  .tv-chart-bar-prediction { width: min(54%,48px); background: linear-gradient(180deg,#fbbf24,#d97706); box-shadow: 0 6px 16px rgba(217,119,6,.26); }
+  .tv-chart-season-label { min-height: 26px; color: #475569; font-size: clamp(9px,.66vw,12px); line-height: 1.05; text-align: center; }
+  .tv-chart-prediction-season { padding-left: clamp(7px,.75vw,14px); border-left: 2px dashed #f59e0b; }
+  .tv-chart-prediction-season .tv-chart-season-label { color: #b45309; }
+  .tv-chart-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #64748b; text-align: center; }
+  .tv-chart-empty strong { color: #0f172a; font-size: clamp(18px,1.4vw,26px); }
+  .tv-career-totals { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+  .tv-career-totals > div { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 5px; background: #eef2f7; border-radius: 10px; }
+  .tv-career-totals span { color: #64748b; font-size: clamp(9px,.65vw,11px); font-weight: 900; text-transform: uppercase; }
+  .tv-career-totals strong { color: #0f172a; font-size: clamp(21px,1.65vw,31px); }
+  .tv-career-total-highlight { background: #dbeafe !important; }
+  .tv-career-total-highlight strong { color: #1d4ed8; }
+  .tv-bid-panel { min-height: 0; display: grid; grid-template-rows: auto auto auto 1fr; margin: 0; padding: clamp(17px,1.4vw,25px); overflow: hidden; background: linear-gradient(160deg,rgba(15,31,53,.98),rgba(7,17,31,.98)); border: 2px solid color-mix(in srgb,var(--team-secondary) 55%,transparent); border-radius: 20px; box-shadow: 0 22px 48px rgba(0,0,0,.34); }
+  .tv-bid-current, .tv-bid-leader { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .tv-bid-current span, .tv-bid-leader span { color: #94a3b8; font-size: clamp(10px,.75vw,13px); font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+  .tv-bid-current strong { margin-top: 7px; color: #22c55e; font-size: clamp(50px,5vw,88px); line-height: .95; text-shadow: 0 0 28px rgba(34,197,94,.26); }
+  .tv-bid-leader { margin-top: 22px; }
+  .tv-bid-leader strong { margin-top: 5px; color: #fff; font-size: clamp(22px,1.8vw,34px); line-height: 1; }
+  .tv-bid-divider { height: 1px; margin: 22px 0; background: rgba(255,255,255,.16); }
+  .tv-countdown-waiting, .tv-countdown-active, .tv-countdown-closed { min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 15px; text-align: center; }
+  .tv-countdown-waiting { background: rgba(37,99,235,.18); border: 1px solid rgba(96,165,250,.35); }
+  .tv-countdown-waiting span, .tv-countdown-active span, .tv-countdown-closed span { font-size: clamp(12px,.95vw,17px); font-weight: 900; text-transform: uppercase; }
+  .tv-countdown-waiting span { color: #93c5fd; }
+  .tv-countdown-waiting strong { margin-top: 8px; color: #fff; font-size: clamp(16px,1.25vw,23px); }
+  .tv-countdown-active { background: radial-gradient(circle,rgba(239,68,68,.22),rgba(127,29,29,.14)); border: 2px solid #ef4444; }
+  .tv-countdown-active span { color: #fca5a5; }
+  .tv-countdown-active strong { color: #fff; font-size: clamp(96px,10vw,180px); line-height: .85; text-shadow: 0 0 36px rgba(239,68,68,.58); }
+  .tv-countdown-closed { padding: 20px; background: rgba(220,38,38,.22); border: 2px solid var(--red); }
+  .tv-countdown-closed span { color: #fca5a5; font-size: clamp(21px,1.7vw,31px); }
+  .tv-countdown-closed strong { margin-top: 9px; color: #fff; font-size: clamp(15px,1.1vw,21px); }
+  
+  /* =========================================================
+     TV DISPLAY: SOLD SCREEN
+     ========================================================= */
+  .winner-screen-premium { position: relative; width: 100%; min-height: 100vh; height: 100vh; display: flex; align-items: stretch; justify-content: center; overflow: hidden; padding: clamp(14px,2vh,28px) clamp(18px,2.4vw,46px); background: radial-gradient(circle at 15% 20%,color-mix(in srgb,var(--team-secondary) 55%,transparent),transparent 38%), linear-gradient(145deg,color-mix(in srgb,var(--team-primary) 78%,#000),#07111f 72%); color: #fff; }
+  .winner-ambient-light { position: absolute; width: 42vw; height: 42vw; border-radius: 50%; filter: blur(90px); opacity: .22; pointer-events: none; }
+  .winner-ambient-light-one { top: -24vw; left: -12vw; background: var(--team-secondary); }
+  .winner-ambient-light-two { right: -18vw; bottom: -28vw; background: var(--team-primary); }
+  .winner-background-logo { position: absolute; inset: 5%; background-position: center; background-repeat: no-repeat; background-size: contain; opacity: .055; filter: grayscale(1) brightness(4); pointer-events: none; }
+  .winner-stage { position: relative; z-index: 2; width: min(1300px,96vw); min-height: 0; display: grid; grid-template-rows: clamp(62px,9vh,100px) minmax(0,1fr); gap: clamp(12px,1.5vh,20px); animation: winner-stage-entry 650ms cubic-bezier(.2,.8,.2,1) both; }
+  .winner-banner { position: relative; z-index: 20; width: 100%; min-height: 0; display: flex; align-items: center; justify-content: center; gap: clamp(18px,3vw,46px); margin: 0; padding: 0; }
+  .winner-banner strong { position: relative; z-index: 2; flex: 0 0 auto; margin: 0; color: #fff; font-size: clamp(44px,5.5vw,88px); font-weight: 950; line-height: .9; letter-spacing: .08em; text-align: center; text-transform: uppercase; text-shadow: 0 8px 26px rgba(0,0,0,.38), 0 0 32px color-mix(in srgb,var(--team-secondary) 42%,transparent); }
+  .winner-banner-line { height: 4px; flex: 1; background: linear-gradient(90deg,transparent,var(--team-secondary),#fff); border-radius: 999px; }
+  .winner-banner-line:last-child { transform: scaleX(-1); }
+  .winner-card-premium { width: 100%; min-height: 0; height: 100%; display: grid; grid-template-columns: minmax(350px,.88fr) minmax(480px,1.12fr); overflow: hidden; background: rgba(248,250,252,.98); border: 3px solid color-mix(in srgb,var(--team-secondary) 70%,#fff); border-radius: 30px; box-shadow: 0 34px 90px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.9); }
+  .winner-visual-panel { position: relative; min-height: 0; height: 100%; overflow: hidden; background: linear-gradient(155deg,var(--team-primary),color-mix(in srgb,var(--team-primary) 54%,#000)); }
+  .winner-visual-panel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg,transparent 0%,rgba(255,255,255,.1) 46%,transparent 47%); pointer-events: none; }
+  .winner-rank-badge { position: absolute; z-index: 5; top: 24px; left: 24px; display: flex; flex-direction: column; padding: 9px 13px; background: rgba(0,0,0,.34); border: 1px solid rgba(255,255,255,.22); border-radius: 11px; }
+  .winner-rank-badge span { color: #cbd5e1; font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+  .winner-rank-badge strong { color: #fff; font-size: clamp(21px,1.7vw,31px); }
+  .winner-visual-initials { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.12); font-size: clamp(110px,12vw,210px); font-weight: 950; letter-spacing: -.07em; }
+  .winner-player-portrait { position: absolute; z-index: 3; inset: clamp(28px,4vh,56px) 0 0; background-position: center bottom; background-repeat: no-repeat; background-size: contain; filter: drop-shadow(0 24px 24px rgba(0,0,0,.42)); animation: winner-player-entry 700ms 180ms cubic-bezier(.2,.8,.2,1) both; }
+  .winner-main-team-logo { position: absolute; z-index: 3; inset: 17%; background-position: center; background-repeat: no-repeat; background-size: contain; filter: drop-shadow(0 28px 28px rgba(0,0,0,.38)); animation: winner-player-entry 700ms 180ms cubic-bezier(.2,.8,.2,1) both; }
+  .winner-corner-logo { position: absolute; z-index: 5; right: 22px; bottom: 22px; width: clamp(72px,7vw,118px); height: clamp(72px,7vw,118px); background-position: center; background-repeat: no-repeat; background-size: contain; filter: drop-shadow(0 8px 12px rgba(0,0,0,.25)); }
+  .winner-information-panel { position: relative; z-index: 2; min-width: 0; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: clamp(22px,3vh,42px) clamp(32px,4vw,68px); color: #0f172a; }
+  .winner-choice-type { display: block; position: relative; z-index: 3; margin: 0 0 8px; color: var(--team-primary); font-size: clamp(11px,.85vw,15px); font-weight: 950; line-height: 1.2; letter-spacing: .13em; text-transform: uppercase; }
+  .winner-choice-name { position: relative; z-index: 2; margin: 0 0 6px; color: #0f172a; font-size: clamp(42px,4.4vw,76px); font-weight: 950; line-height: .94; letter-spacing: -.045em; text-transform: uppercase; overflow-wrap: anywhere; }
+  .winner-team-name { margin-top: 3px; color: #64748b; font-size: clamp(18px,1.5vw,28px); font-weight: 800; }
+  .winner-separator { width: 100%; height: 2px; margin: clamp(18px,2.2vh,30px) 0; background: linear-gradient(90deg,var(--team-primary),var(--team-secondary),transparent); }
+  .winner-label { color: #64748b; font-size: clamp(12px,.9vw,16px); font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+  .winner-dg-name { margin-top: 5px; color: var(--team-primary); font-size: clamp(38px,4vw,68px); font-weight: 950; line-height: 1; }
+  .winner-price-block { align-self: flex-start; min-width: min(100%,360px); display: flex; flex-direction: column; margin-top: clamp(18px,2.4vh,32px); padding: clamp(14px,1.8vh,22px) clamp(22px,2vw,32px); background: linear-gradient(145deg,#16a34a,#15803d); border-radius: 18px; box-shadow: 0 16px 34px rgba(22,163,74,.25); }
+  .winner-price-block span { color: #dcfce7; font-size: clamp(11px,.8vw,14px); font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+  .winner-price-block strong { color: #fff; font-size: clamp(50px,5vw,84px); font-weight: 950; line-height: .95; }
+  @keyframes winner-stage-entry { from { opacity: 0; transform: translateY(30px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes winner-player-entry { from { opacity: 0; transform: translateY(35px) scale(.94); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  
+  /* =========================================================
+     RESPONSIVE
+     ========================================================= */
+  @media (max-width: 1200px) {
+    .tv-auction-layout { grid-template-columns: minmax(280px,.9fr) minmax(350px,1.25fr) minmax(220px,.7fr); gap: 12px; }
+    .tv-auction-screen { padding: 12px; }
+    .winner-card-premium { grid-template-columns: minmax(330px,.85fr) minmax(420px,1.15fr); }
+    .winner-information-panel { padding: 24px 38px; }
+  }
+  @media (max-width: 800px) {
+    .admin-status-bar { grid-template-columns: repeat(2,1fr); }
+    .admin-auction-layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    .dg-status-strip { grid-template-columns: repeat(3,1fr); }
+    .dg-turn-pill { grid-column: 1 / -1; }
+    .auction-details-grid { grid-template-columns: 1fr 1fr; }
+    .custom-bid-area { width: 100%; margin-left: 0; }
+    .primary-bid-button { width: 100%; }
+    .modal-details-grid { grid-template-columns: 1fr; }
+    .pagination-bar { justify-content: center; }
+    .pagination-result-count, .availability-filter { width: 100%; }
+  }
+  @media (max-width: 600px) {
+    .dg-login-page { padding: 14px 10px; }
+    .dg-login-card { padding: 18px; }
+    .dg-login-heading h2 { font-size: 25px; }
+  }
+  @media (max-width: 520px) {
+    .admin-status-bar { grid-template-columns: 1fr 1fr; }
+    .admin-primary-controls button, .admin-danger-zone button, .admin-correction-card button { width: 100%; }
+    .dg-account-header { padding: 13px 14px; }
+    .dg-logout-button { padding: 8px 11px; font-size: 12px; }
+  }
+  @media (max-height: 800px) {
+    .winner-screen-premium { padding: 10px 20px; }
+    .winner-stage { grid-template-rows: 56px minmax(0,1fr); gap: 9px; }
+    .winner-banner strong { font-size: clamp(40px,5vw,68px); }
+    .winner-information-panel { padding: 18px 34px; }
+    .winner-choice-name { font-size: clamp(36px,3.8vw,60px); }
+    .winner-separator { margin: 13px 0; }
+    .winner-price-block { margin-top: 14px; padding: 12px 22px; }
+    .winner-price-block strong { font-size: clamp(44px,4.5vw,70px); }
+  }
+
+  /* =========================================================
+   AJUSTEMENTS FINAUX
+   Pagination, affichage TV et noms des joueurs
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. Menu déroulant de pagination
+   --------------------------------------------------------- */
+
+.page-selector select {
+  min-width: 68px;
+  padding: 8px 30px 8px 10px;
+
+  background-color: #ffffff;
+  color: #111827;
+
+  border: 1px solid #94a3b8;
+  border-radius: 7px;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  color-scheme: light;
+  cursor: pointer;
+}
+
+.page-selector select:hover {
+  border-color: #2563eb;
+}
+
+.page-selector select:focus {
+  border-color: #2563eb;
+  outline: 3px solid rgba(37, 99, 235, 0.2);
+}
+
+.page-selector select option {
+  background-color: #ffffff;
+  color: #111827;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Protection supplémentaire contre les thèmes foncés
+   imposés par certains navigateurs. */
+.page-selector,
+.page-selector span {
+  color: #374151;
+}
+
+/* ---------------------------------------------------------
+   2. Utilisation optimale d'une télévision 16:9
+   --------------------------------------------------------- */
+
+.display-root {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+
+  overflow: hidden;
+}
+
+/* Écran entre deux enchères */
+.tv-between-screen {
+  width: 100%;
+  max-width: none;
+
+  padding:
+    clamp(12px, 1.35vw, 24px)
+    clamp(14px, 1.5vw, 28px);
+}
+
+/* Écran d'enchère active */
+.tv-auction-screen {
+  width: 100%;
+  max-width: none;
+
+  padding:
+    clamp(12px, 1.35vw, 24px)
+    clamp(14px, 1.5vw, 28px);
+}
+
+.tv-auction-layout {
+  width: 100%;
+
+  grid-template-columns:
+    minmax(340px, 1.02fr)
+    minmax(520px, 1.62fr)
+    minmax(280px, 0.8fr);
+
+  gap: clamp(12px, 1.15vw, 22px);
+}
+
+/* Écran VENDU */
+.winner-screen-premium {
+  width: 100vw;
+  max-width: none;
+
+  padding:
+    clamp(10px, 1.5vh, 22px)
+    clamp(12px, 1.25vw, 24px);
+}
+
+.winner-stage {
+  width: 100%;
+  max-width: none;
+
+  grid-template-rows:
+    clamp(62px, 8.5vh, 96px)
+    minmax(0, 1fr);
+
+  gap: clamp(10px, 1.3vh, 18px);
+}
+
+/* La carte occupe presque toute la largeur du téléviseur. */
+.winner-card-premium {
+  width: 100%;
+  max-width: none;
+
+  grid-template-columns:
+    minmax(390px, 0.95fr)
+    minmax(590px, 1.45fr);
+
+  border-radius: clamp(20px, 1.6vw, 30px);
+}
+
+/* Le panneau d'information reçoit davantage de largeur. */
+.winner-information-panel {
+  padding:
+    clamp(24px, 3vh, 42px)
+    clamp(34px, 3.4vw, 66px);
+}
+
+/* ---------------------------------------------------------
+   3. Noms complets sur les cartes TV
+   --------------------------------------------------------- */
+
+/* Écran VENDU */
+.winner-choice-name {
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0 0 8px;
+
+  font-size: clamp(38px, 4vw, 72px);
+  line-height: 0.97;
+  letter-spacing: -0.04em;
+
+  /* Le nom peut passer à la ligne entre deux mots,
+     mais jamais couper une lettre ou un mot. */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+
+  text-align: center;
+}
+
+/* Évite que le type du choix soit trop près du nom. */
+.winner-choice-type {
+  margin-bottom: clamp(8px, 1.1vh, 14px);
+  text-align: center;
+}
+
+/* Équipe ou abréviation sous le nom. */
+.winner-team-name {
+  text-align: center;
+}
+
+/* Nom du DG gagnant */
+.winner-dg-name {
+  width: 100%;
+  max-width: 100%;
+
+  font-size: clamp(34px, 3.6vw, 64px);
+  line-height: 1;
+
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+/* Carte d'enchère active */
+.tv-card-identity h2 {
+  width: 100%;
+  max-width: 100%;
+
+  font-size: clamp(23px, 1.9vw, 38px);
+  line-height: 1;
+
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+/* Empêche le panneau central de manquer d'espace. */
+.tv-career-panel,
+.tv-hockey-card,
+.tv-bid-panel,
+.winner-visual-panel,
+.winner-information-panel {
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------
+   Résolution TV standard 1920 x 1080
+   --------------------------------------------------------- */
+
+@media screen and (min-width: 1500px) and (min-height: 850px) {
+  .winner-screen-premium {
+    padding: 14px 20px;
+  }
+
+  .winner-stage {
+    width: 100%;
+    grid-template-rows:
+      92px
+      minmax(0, 1fr);
+  }
+
+  .winner-card-premium {
+    grid-template-columns:
+      minmax(430px, 0.95fr)
+      minmax(680px, 1.55fr);
+  }
+
+  .winner-information-panel {
+    padding: 36px 70px;
+  }
+
+  .winner-choice-name {
+    font-size: clamp(54px, 4.25vw, 82px);
+  }
+
+  .winner-dg-name {
+    font-size: clamp(46px, 3.6vw, 70px);
+  }
+
+  .tv-auction-layout {
+    grid-template-columns:
+      minmax(370px, 1.05fr)
+      minmax(590px, 1.7fr)
+      minmax(300px, 0.8fr);
+  }
+}
+
+/* ---------------------------------------------------------
+   Télévision ou navigateur avec hauteur réduite
+   --------------------------------------------------------- */
+
+@media screen and (max-height: 800px) {
+  .winner-screen-premium {
+    padding: 8px 16px;
+  }
+
+  .winner-stage {
+    grid-template-rows:
+      54px
+      minmax(0, 1fr);
+
+    gap: 8px;
+  }
+
+  .winner-banner strong {
+    font-size: clamp(38px, 4.8vw, 64px);
+  }
+
+  .winner-card-premium {
+    grid-template-columns:
+      minmax(330px, 0.92fr)
+      minmax(500px, 1.38fr);
+  }
+
+  .winner-information-panel {
+    padding: 18px 40px;
+  }
+
+  .winner-choice-name {
+    font-size: clamp(36px, 3.8vw, 60px);
+  }
+
+  .winner-choice-type {
+    margin-bottom: 6px;
+  }
+
+  .winner-separator {
+    margin: 12px 0;
+  }
+
+  .winner-dg-name {
+    font-size: clamp(34px, 3.4vw, 54px);
+  }
+
+  .winner-price-block {
+    margin-top: 12px;
+  }
+}
+
+/* ---------------------------------------------------------
+   Sécurité pour les écrans moins larges
+   --------------------------------------------------------- */
+
+@media screen and (max-width: 1300px) {
+  .winner-card-premium {
+    grid-template-columns:
+      minmax(320px, 0.9fr)
+      minmax(480px, 1.35fr);
+  }
+
+  .winner-choice-name {
+    font-size: clamp(36px, 3.8vw, 60px);
+  }
+
+  .tv-auction-layout {
+    grid-template-columns:
+      minmax(285px, 0.92fr)
+      minmax(390px, 1.35fr)
+      minmax(230px, 0.72fr);
+  }
+}
+  
+/* Auction close and reopen controls */
+.close-bids-button { background: #dc2626; }
+.reopen-auction-button { background: #0284c7; }
+.winner-ready { margin-top: 14px; padding: 14px; background: #fef3c7; color: #78350f; border: 1px solid #f59e0b; border-radius: 10px; }
+.tv-countdown-closed b { margin-top: 14px; color: #fff; font-size: clamp(44px,4vw,76px); line-height: 1; }
+.tv-countdown-closed small { margin-top: 12px; color: #fecaca; font-size: clamp(12px,.9vw,16px); font-weight: 800; text-transform: uppercase; }
+
+/* ========================================
+   Animations TV
+   ======================================== */
+
+   .tv-new-bid-flash {
+    animation:
+      tv-new-bid-flash 550ms ease-out;
+  }
+  
+  @keyframes tv-new-bid-flash {
+    0% {
+      transform: scale(1);
+    }
+  
+    20% {
+      transform: scale(1.12);
+    }
+  
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .tv-new-bid-flash strong {
+    animation:
+      tv-new-bid-color 550ms ease-out;
+  }
+  
+  @keyframes tv-new-bid-color {
+    0% {
+      color: #22c55e;
+    }
+  
+    25% {
+      color: #4ade80;
+      text-shadow:
+        0 0 30px
+        rgba(74, 222, 128, 0.8);
+    }
+  
+    100% {
+      color: #22c55e;
+    }
+  }
+  
+  .tv-new-leader {
+    animation:
+      tv-new-leader 650ms
+      cubic-bezier(
+        0.2,
+        0.8,
+        0.2,
+        1
+      );
+  }
+  
+  @keyframes tv-new-leader {
+    0% {
+      opacity: 0.15;
+      transform:
+        translateY(16px);
+    }
+  
+    100% {
+      opacity: 1;
+      transform:
+        translateY(0);
+    }
+  }
+  
+  .tv-countdown-pulse strong {
+    animation:
+      tv-countdown-pulse 450ms
+      ease-out;
+  }
+  
+  @keyframes tv-countdown-pulse {
+    0% {
+      transform: scale(0.75);
+    }
+  
+    50% {
+      transform: scale(1.18);
+    }
+  
+    100% {
+      transform: scale(1);
+    }
+  }
+/* =========================================================
+   ADVANCED AUCTION ANIMATIONS
+   ========================================================= */
+.tv-auction-screen { position: relative; }
+.tv-bid-current { position: relative; }
+.tv-bid-increase {
+  position: absolute;
+  top: 50%;
+  right: -4px;
+  z-index: 8;
+  padding: 7px 11px;
+  background: linear-gradient(145deg, #22c55e, #15803d);
+  color: #fff;
+  border: 1px solid rgba(187, 247, 208, .65);
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(22, 163, 74, .34), 0 0 24px rgba(74, 222, 128, .28);
+  font-size: clamp(16px, 1.25vw, 24px);
+  font-style: normal;
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: tv-bid-increase-float 950ms ease-out both;
+}
+.tv-new-leader-overlay,
+.tv-closing-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.tv-new-leader-overlay {
+  flex-direction: column;
+  gap: 9px;
+  background: radial-gradient(circle, rgba(37,99,235,.45), rgba(7,17,31,.12) 42%, transparent 67%);
+  animation: tv-overlay-visibility 1250ms ease-out both;
+}
+.tv-new-leader-overlay::before {
+  content: "";
+  position: absolute;
+  width: min(720px, 72vw);
+  height: min(250px, 27vh);
+  background: linear-gradient(110deg, rgba(15,31,53,.96), rgba(30,64,175,.96), rgba(15,31,53,.96));
+  border: 2px solid rgba(147,197,253,.72);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.52), 0 0 50px rgba(59,130,246,.34);
+  animation: tv-leader-card-entry 1250ms cubic-bezier(.2,.8,.2,1) both;
+}
+.tv-new-leader-overlay span,
+.tv-new-leader-overlay strong {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  text-transform: uppercase;
+}
+.tv-new-leader-overlay span {
+  color: #bfdbfe;
+  font-size: clamp(17px, 1.35vw, 25px);
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+.tv-new-leader-overlay strong {
+  max-width: min(650px, 66vw);
+  color: #fff;
+  font-size: clamp(44px, 4.8vw, 88px);
+  font-weight: 950;
+  line-height: .95;
+  letter-spacing: -.035em;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  text-wrap: balance;
+  text-shadow: 0 9px 28px rgba(0,0,0,.36);
+}
+.tv-closing-overlay {
+  background: rgba(7,17,31,.48);
+  backdrop-filter: blur(2px);
+  animation: tv-overlay-visibility 850ms ease-out both;
+}
+.tv-closing-overlay span {
+  position: relative;
+  padding: clamp(24px,3vh,42px) clamp(35px,5vw,90px);
+  overflow: hidden;
+  background: linear-gradient(145deg,#991b1b,#dc2626);
+  color: #fff;
+  border: 3px solid #fca5a5;
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.52), 0 0 48px rgba(239,68,68,.34);
+  font-size: clamp(34px,4vw,72px);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: .05em;
+  text-align: center;
+  text-transform: uppercase;
+  animation: tv-closing-card-entry 850ms cubic-bezier(.2,.8,.2,1) both;
+}
+.tv-closing-overlay span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg,transparent 20%,rgba(255,255,255,.28) 45%,transparent 70%);
+  transform: translateX(-120%);
+  animation: tv-closing-sweep 700ms 80ms ease-out both;
+}
+@keyframes tv-bid-increase-float {
+  0% { opacity: 0; transform: translateY(22px) scale(.72); }
+  22% { opacity: 1; transform: translateY(-8px) scale(1.1); }
+  68% { opacity: 1; transform: translateY(-18px) scale(1); }
+  100% { opacity: 0; transform: translateY(-34px) scale(.92); }
+}
+@keyframes tv-leader-card-entry {
+  0% { opacity: 0; transform: translateY(36px) scale(.82); }
+  20% { opacity: 1; transform: translateY(0) scale(1.04); }
+  72% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-18px) scale(.98); }
+}
+@keyframes tv-closing-card-entry {
+  0% { opacity: 0; transform: scale(.82); }
+  24% { opacity: 1; transform: scale(1.04); }
+  76% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.02); }
+}
+@keyframes tv-closing-sweep { to { transform: translateX(120%); } }
+@keyframes tv-overlay-visibility {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  78% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-new-bid-flash,
+  .tv-new-bid-flash strong,
+  .tv-new-leader,
+  .tv-countdown-pulse strong,
+  .tv-bid-increase,
+  .tv-new-leader-overlay,
+  .tv-new-leader-overlay::before,
+  .tv-closing-overlay,
+  .tv-closing-overlay span,
+  .tv-closing-overlay span::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+
+/* PROJECTED TEAM POINTS */
+.dg-status-strip { grid-template-columns: repeat(7, minmax(70px,1fr)) auto; }
+.dg-projected-points-item { background: linear-gradient(145deg,#ede9fe,#dbeafe); border: 1px solid #c4b5fd; }
+.dg-projected-points-item span { color: #5b21b6; }
+.dg-projected-points-item strong { color: #4c1d95; font-size: 17px; }
+.display-root .tv-dg-table th:nth-child(2) { width: 18%; }
+.display-root .tv-dg-table th:nth-child(3) { width: 9%; }
+.display-root .tv-dg-table th:nth-child(4) { width: 10%; }
+.display-root .tv-dg-table th:nth-child(11) { width: 9%; }
+.display-root .tv-projected-points-cell { color: #5b21b6 !important; background: #f5f3ff !important; font-variant-numeric: tabular-nums; }
+.display-root .tv-projected-points-cell strong { color: #5b21b6; font-size: clamp(13px,1.05vw,19px); font-weight: 950; }
+.display-root .tv-current-dg-row .tv-projected-points-cell { background: #d1fae5 !important; color: #14532d !important; }
+.display-root .tv-current-dg-row .tv-projected-points-cell strong { color: #14532d; }
+@media (max-width: 700px) {
+  .dg-status-strip { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .dg-turn-pill { grid-column: 1 / -1; }
+}
