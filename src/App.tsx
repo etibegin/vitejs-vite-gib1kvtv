@@ -494,33 +494,65 @@ if (
     return null;
   }
 
-  function estDgTermine(dgId: number) {
-    const dg = dgs.find((item) => item.id === dgId);
-    const equipe = equipesParDG[dgId] || [];
+  function estDgTermineApresAttribution(
+    dgId: number,
+    equipesActualisees: Record<number, any[]>,
+    budgetsActualises: Record<number, number>
+  ) {
+    const dg = dgs.find(
+      (item) => Number(item.id) === Number(dgId)
+    );
 
     if (!dg) {
       return true;
     }
 
-    return dg.budgetRestant <= 0 || equipe.length >= 16;
+    const equipe =
+      equipesActualisees[dgId] || [];
+
+    const budgetRestant =
+      budgetsActualises[dgId] ??
+      Number(dg.budgetRestant || 0);
+
+    return (
+      budgetRestant <= 0 ||
+      equipe.length >= 16
+    );
   }
 
-  function trouverProchainIndexActif(indexDepart: number) {
+  function trouverProchainIndexActif(
+    indexDepart: number,
+    equipesActualisees: Record<number, any[]> =
+      equipesParDG,
+    budgetsActualises: Record<number, number> = {}
+  ) {
     if (ordreDGIds.length === 0) {
       return 0;
     }
-  
-    for (let i = 1; i <= ordreDGIds.length; i++) {
-      const prochainIndex =
-        (indexDepart + i) % ordreDGIds.length;
-  
-      const prochainDgId = ordreDGIds[prochainIndex];
-  
-      if (!estDgTermine(prochainDgId)) {
-        return prochainIndex;
+
+    for (
+      let decalage = 1;
+      decalage <= ordreDGIds.length;
+      decalage++
+    ) {
+      const indexCandidat =
+        (indexDepart + decalage) %
+        ordreDGIds.length;
+
+      const dgCandidatId =
+        ordreDGIds[indexCandidat];
+
+      if (
+        !estDgTermineApresAttribution(
+          dgCandidatId,
+          equipesActualisees,
+          budgetsActualises
+        )
+      ) {
+        return indexCandidat;
       }
     }
-  
+
     return indexDepart;
   }
 
@@ -940,11 +972,22 @@ if (
     };
   
     const nouveauBudget =
-      gagnant.budgetRestant -
-      enchereActive.miseActuelle;
-  
+      Number(gagnant.budgetRestant || 0) -
+      Number(enchereActive.miseActuelle || 0);
+
+    const budgetsApresAttribution: Record<
+      number,
+      number
+    > = {
+      [Number(gagnant.id)]: nouveauBudget,
+    };
+
     const prochainIndex =
-      trouverProchainIndexActif(indexDGActuel);
+      trouverProchainIndexActif(
+        indexDGActuel,
+        nouvellesEquipesParDG,
+        budgetsApresAttribution
+      );
   
     const { error: erreurBudget } = await supabase
       .from("dgs")
