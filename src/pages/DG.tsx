@@ -37,6 +37,7 @@ const EMPLACEMENTS_EQUIPE = [
 ];
 
 const JOUEURS_PAR_PAGE = 50;
+type ModeAffichageListes = "telephone" | "ordinateur";
 
 export default function DG({
   dg,
@@ -65,6 +66,16 @@ export default function DG({
   const [choixEnPreparation, setChoixEnPreparation] = useState<any>(null);
   const [miseDepart, setMiseDepart] = useState("");
   const [misePersonnalisee, setMisePersonnalisee] = useState("");
+  const [modeAffichageListes, setModeAffichageListes] =
+    useState<ModeAffichageListes>(() => {
+      const modeMemorise = localStorage.getItem("poolHockeyModeListesDG");
+
+      if (modeMemorise === "telephone" || modeMemorise === "ordinateur") {
+        return modeMemorise;
+      }
+
+      return window.innerWidth <= 700 ? "telephone" : "ordinateur";
+    });
 
   function obtenirSelectionChoix(choixId: string) {
     return choixSelectionnes.find((choix) => choix.choixId === choixId);
@@ -222,8 +233,15 @@ export default function DG({
     }
   }
 
+  function changerModeAffichageListes(
+    nouveauMode: ModeAffichageListes
+  ) {
+    setModeAffichageListes(nouveauMode);
+    localStorage.setItem("poolHockeyModeListesDG", nouveauMode);
+  }
+
   return (
-    <div>
+    <div className={`dg-interface dg-list-mode-${modeAffichageListes}`}>
       <header className="dg-account-header">
         <div>
           <span className="dg-account-label">DG connecté</span>
@@ -292,6 +310,43 @@ export default function DG({
         <section className="finished-box"><strong>Votre équipe est terminée.</strong><p>Vous ne pouvez plus proposer de choix ni miser.</p></section>
       )}
 
+      <section className="dg-list-display-control">
+        <div>
+          <span>Affichage des listes</span>
+          <strong>
+            {modeAffichageListes === "telephone"
+              ? "Mode téléphone"
+              : "Mode ordinateur"}
+          </strong>
+        </div>
+
+        <div className="dg-list-display-buttons">
+          <button
+            type="button"
+            className={
+              modeAffichageListes === "telephone"
+                ? "dg-list-display-active"
+                : ""
+            }
+            onClick={() => changerModeAffichageListes("telephone")}
+          >
+            Téléphone
+          </button>
+
+          <button
+            type="button"
+            className={
+              modeAffichageListes === "ordinateur"
+                ? "dg-list-display-active"
+                : ""
+            }
+            onClick={() => changerModeAffichageListes("ordinateur")}
+          >
+            Ordinateur
+          </button>
+        </div>
+      </section>
+
       <div className="tabs">
         <button onClick={() => setOnglet("equipe")}>Mon équipe</button>
         <button onClick={() => setOnglet("joueurs")}>Joueurs</button>
@@ -304,7 +359,7 @@ export default function DG({
           <>
             <h3>Équipe du DG - {dg.nom}</h3>
             <p className="budget">Argent restant : {dg.budgetRestant} $</p>
-            <div className="table-container">
+            <div className="table-container dg-team-table">
               <table><thead><tr><th>Poste</th><th>Type</th><th>Nom</th><th>Équipe</th><th>Prix payé</th></tr></thead>
                 <tbody>{lignesEquipe.map((ligne) => (
                   <tr key={ligne.poste} className={ligne.nom === "" ? "empty-row" : ""}>
@@ -327,7 +382,7 @@ export default function DG({
               <span className="pagination-result-count">{joueursFiltres.length} joueur{joueursFiltres.length > 1 ? "s" : ""} trouvé{joueursFiltres.length > 1 ? "s" : ""}</span>
               <button onClick={() => setPageJoueurs((p) => Math.min(nombrePagesJoueurs, p + 1))} disabled={pageJoueurs === nombrePagesJoueurs}>Suivant</button>
             </div>
-            <div className="table-container"><table><thead><tr><th>Rang</th><th>Nom</th><th>Équipe</th><th>Pos</th><th>MJ</th><th>B</th><th>A</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
+            <div className="table-container dg-players-table"><table><thead><tr><th>Rang</th><th>Nom</th><th>Équipe</th><th>Pos</th><th>MJ</th><th>B</th><th>A</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
               <tbody>{joueursPageCourante.map((joueur) => {
                 const choixId = `joueur-${joueur.id}`;
                 const selection = obtenirSelectionChoix(choixId);
@@ -340,7 +395,7 @@ export default function DG({
         {onglet === "gardiens" && (
           <><h3>Liste des gardiens</h3><input type="text" placeholder="Rechercher un gardien..." value={rechercheGardien} onChange={(e) => setRechercheGardien(e.target.value)} className="search-input" />
             <div className="list-filter-bar"><label className="availability-filter"><input type="checkbox" checked={gardiensDisponiblesSeulement} onChange={(e) => setGardiensDisponiblesSeulement(e.target.checked)} /><span>Afficher les gardiens disponibles seulement</span></label><span className="filter-result-count">{gardiensFiltres.length} gardien{gardiensFiltres.length > 1 ? "s" : ""}</span></div>
-            <div className="table-container"><table><thead><tr><th>Rang</th><th>Nom</th><th>Équipe</th><th>MJ</th><th>V</th><th>D</th><th>DP</th><th>BL</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
+            <div className="table-container dg-goalies-table"><table><thead><tr><th>Rang</th><th>Nom</th><th>Équipe</th><th>MJ</th><th>V</th><th>D</th><th>DP</th><th>BL</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
               <tbody>{gardiensFiltres.map((gardien) => { const choixId = `gardien-${gardien.id}`; const selection = obtenirSelectionChoix(choixId); return <tr key={gardien.id}><td>{gardien.rang}</td><td>{gardien.nom}</td><td>{gardien.equipe}</td><td>{gardien.matchsPredits}</td><td>{gardien.victoiresPredites}</td><td>{gardien.defaitesPredites}</td><td>{gardien.defaitesProlongationPredites}</td><td>{gardien.blanchissagesPredits}</td><td>{gardien.pointsPredits}</td><td>{gardien.valeurMinimale} $</td><td>{selection ? `${selection.selectionnePar} - ${selection.prixPaye} $` : gardien.statut === "Sélectionné" ? `${gardien.selectionnePar} - ${gardien.prixPaye} $` : gardien.statut}</td>{peutProposer && <td>{!selection && gardien.statut === "Disponible" && <button className="small-button" onClick={() => choisirDepuisListe({ id: choixId, nhlId: gardien.nhlId, type: "Gardien", nom: gardien.nom, equipe: gardien.equipe, rang: gardien.rang, valeurMinimale: gardien.valeurMinimale, pointsPredits: gardien.pointsPredits, pointsPoolPredits: gardien.pointsPoolPredits, matchsPredits: gardien.matchsPredits, victoiresPredites: gardien.victoiresPredites, defaitesPredites: gardien.defaitesPredites, defaitesProlongationPredites: gardien.defaitesProlongationPredites, blanchissagesPredits: gardien.blanchissagesPredits, butsPredits: gardien.butsPredits, assistancesPredites: gardien.assistancesPredites, statut: gardien.statut })}>Choisir</button>}</td>}</tr>; })}</tbody>
             </table></div>
           </>
@@ -349,7 +404,7 @@ export default function DG({
         {onglet === "equipes" && (
           <><h3>Liste des équipes</h3><input type="text" placeholder="Rechercher une équipe..." value={rechercheEquipe} onChange={(e) => setRechercheEquipe(e.target.value)} className="search-input" />
             <div className="list-filter-bar"><label className="availability-filter"><input type="checkbox" checked={equipesDisponiblesSeulement} onChange={(e) => setEquipesDisponiblesSeulement(e.target.checked)} /><span>Afficher les équipes disponibles seulement</span></label><span className="filter-result-count">{equipesFiltrees.length} équipe{equipesFiltrees.length > 1 ? "s" : ""}</span></div>
-            <div className="table-container"><table><thead><tr><th>Rang</th><th>Équipe</th><th>MJ</th><th>V</th><th>D</th><th>DP</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
+            <div className="table-container dg-nhl-teams-table"><table><thead><tr><th>Rang</th><th>Équipe</th><th>MJ</th><th>V</th><th>D</th><th>DP</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
               <tbody>{equipesFiltrees.map((equipe) => { const choixId = `equipe-${equipe.id}`; const selection = obtenirSelectionChoix(choixId); return <tr key={equipe.id}><td>{equipe.rang}</td><td>{equipe.nom}</td><td>{equipe.matchsPredits}</td><td>{equipe.victoiresPredites}</td><td>{equipe.defaitesPredites}</td><td>{equipe.defaitesProlongationPredites}</td><td>{equipe.pointsPredits}</td><td>{equipe.valeurMinimale} $</td><td>{selection ? `${selection.selectionnePar} - ${selection.prixPaye} $` : equipe.statut === "Sélectionné" ? `${equipe.selectionnePar} - ${equipe.prixPaye} $` : equipe.statut}</td>{peutProposer && <td>{!selection && equipe.statut === "Disponible" && <button className="small-button" onClick={() => choisirDepuisListe({ id: choixId, nhlId: equipe.nhlId, type: "Équipe", nom: equipe.nom, equipe: "", rang: equipe.rang, valeurMinimale: equipe.valeurMinimale, pointsPredits: equipe.pointsPredits, matchsPredits: equipe.matchsPredits, victoiresPredites: equipe.victoiresPredites, defaitesPredites: equipe.defaitesPredites, defaitesProlongationPredites: equipe.defaitesProlongationPredites, statut: equipe.statut })}>Choisir</button>}</td>}</tr>; })}</tbody>
             </table></div>
           </>
