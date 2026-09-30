@@ -129,6 +129,31 @@ export default function Admin({
     return nhlId;
   }
 
+  function lireBlesse(ligne: any) {
+    const valeur = ligne.Blesse ?? ligne.Blessé ?? ligne.blesse ?? ligne.blessé ?? "";
+    return ["oui", "true", "1", "x", "blesse", "blessé"].includes(
+      String(valeur).trim().toLowerCase()
+    );
+  }
+
+  function lireDeltaNullable(ligne: any): number | null {
+    const valeur = ligne.Delta ?? ligne.delta ?? null;
+    if (valeur === null || valeur === undefined || String(valeur).trim() === "") {
+      return null;
+    }
+    const delta = Number(String(valeur).trim().replace(/\s/g, "").replace(",", "."));
+    return Number.isFinite(delta) ? delta : null;
+  }
+
+  function formaterDelta(delta: unknown) {
+    if (delta === null || delta === undefined || String(delta).trim() === "") {
+      return "Absent de la source secrète";
+    }
+    const valeur = Number(delta);
+    if (!Number.isFinite(valeur)) return "Absent de la source secrète";
+    return valeur > 0 ? `+${valeur}` : String(valeur);
+  }
+
   function importerFichierExcel(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
@@ -187,6 +212,8 @@ export default function Admin({
             valeurMinimale: Number(
               joueur.ValeurMinimale || 0
             ),
+            blesse: lireBlesse(joueur),
+            delta: lireDeltaNullable(joueur),
             statut: "Disponible",
             selectionnePar: "",
             prixPaye: 0,
@@ -244,6 +271,7 @@ export default function Admin({
               valeurMinimale: Number(
                 gardien.ValeurMinimale || 0
               ),
+              blesse: lireBlesse(gardien),
               statut: "Disponible",
               selectionnePar: "",
               prixPaye: 0,
@@ -630,6 +658,21 @@ export default function Admin({
                   <strong>{propositionEnAttente.rang}</strong>
                 </div>
 
+                {(propositionEnAttente.type === "Attaquant" ||
+                  propositionEnAttente.type === "Défenseur") && (
+                  <div className="admin-delta-info">
+                    <span>Delta secret</span>
+                    <strong>{formaterDelta(propositionEnAttente.delta)}</strong>
+                  </div>
+                )}
+
+                {propositionEnAttente.blesse === true && (
+                  <div className="admin-injury-info">
+                    <span>État</span>
+                    <strong>Blessé</strong>
+                  </div>
+                )}
+
                 <div>
                   <span>Mise de départ</span>
                   <strong>
@@ -697,6 +740,33 @@ export default function Admin({
                     <span>Rang</span>
                     <strong>{enchereActive.rang}</strong>
                   </div>
+
+                  {(enchereActive.type === "Attaquant" ||
+                    enchereActive.type === "Défenseur") && (
+                    <div className="admin-delta-info">
+                      <span>Delta secret</span>
+                      <strong
+                        className={
+                          enchereActive.delta === null || enchereActive.delta === undefined
+                            ? "admin-delta-null"
+                            : Number(enchereActive.delta) > 0
+                            ? "admin-delta-positive"
+                            : Number(enchereActive.delta) < 0
+                            ? "admin-delta-negative"
+                            : "admin-delta-zero"
+                        }
+                      >
+                        {formaterDelta(enchereActive.delta)}
+                      </strong>
+                    </div>
+                  )}
+
+                  {enchereActive.blesse === true && (
+                    <div className="admin-injury-info">
+                      <span>État</span>
+                      <strong>Blessé</strong>
+                    </div>
+                  )}
 
                   <div>
                     <span>DG proposeur</span>
