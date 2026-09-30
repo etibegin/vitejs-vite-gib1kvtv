@@ -168,22 +168,6 @@ export default function DG({
     return false;
   }
 
-  function normaliserDeltaNullable(valeur: unknown): number | null {
-    if (
-      valeur === null ||
-      valeur === undefined ||
-      String(valeur).trim() === ""
-    ) {
-      return null;
-    }
-
-    const delta = Number(valeur);
-
-    return Number.isFinite(delta)
-      ? delta
-      : null;
-  }
-
   function choisirDepuisListe(choix: any) {
     if (!peutProposer) return alert("Vous ne pouvez pas proposer un choix pour le moment.");
     if (obtenirSelectionChoix(choix.id)) return alert("Ce choix a déjà été sélectionné.");
@@ -224,12 +208,6 @@ export default function DG({
       defaitesPredites: Number(choixEnPreparation.defaitesPredites || 0),
       defaitesProlongationPredites: Number(choixEnPreparation.defaitesProlongationPredites || 0),
       blanchissagesPredits: Number(choixEnPreparation.blanchissagesPredits || 0),
-      blesse: choixEnPreparation.blesse === true,
-      delta:
-        choixEnPreparation.type === "Attaquant" ||
-        choixEnPreparation.type === "Défenseur"
-          ? normaliserDeltaNullable(choixEnPreparation.delta)
-          : null,
       miseDepart: montant,
     });
     setChoixEnPreparation(null);
@@ -408,7 +386,20 @@ export default function DG({
               <tbody>{joueursPageCourante.map((joueur) => {
                 const choixId = `joueur-${joueur.id}`;
                 const selection = obtenirSelectionChoix(choixId);
-                return <tr key={joueur.id}><td>{joueur.rang}</td><td>{joueur.nom}</td><td>{joueur.equipe}</td><td>{joueur.position}</td><td>{joueur.matchsPredits}</td><td>{joueur.butsPredits}</td><td>{joueur.assistancesPredites}</td><td>{joueur.pointsPredits}</td><td>{joueur.valeurMinimale} $</td><td>{selection ? `${selection.selectionnePar} - ${selection.prixPaye} $` : joueur.statut === "Sélectionné" ? `${joueur.selectionnePar} - ${joueur.prixPaye} $` : joueur.statut}</td>{peutProposer && <td>{!selection && joueur.statut === "Disponible" && <button className="small-button" onClick={() => choisirDepuisListe({ id: choixId, nhlId: Number(joueur.nhlId || 0), type: joueur.position === "D" ? "Défenseur" : "Attaquant", nom: joueur.nom, equipe: joueur.equipe, rang: Number(joueur.rang || 0), valeurMinimale: Number(joueur.valeurMinimale || 0), matchsPredits: Number(joueur.matchsPredits || 0), butsPredits: Number(joueur.butsPredits || 0), assistancesPredites: Number(joueur.assistancesPredites || 0), pointsPredits: Number(joueur.pointsPredits || 0), blesse: joueur.blesse === true, delta: normaliserDeltaNullable(joueur.delta), statut: joueur.statut })}>Choisir</button>}</td>}</tr>;
+                return <tr
+                        key={joueur.id}
+                        className={joueur.blesse === true ? "prediction-injured-row" : ""}
+                      >
+                        <td>{joueur.rang}</td>
+                        <td>
+                          <div className="prediction-name-cell">
+                            <span>{joueur.nom}</span>
+                            {joueur.blesse === true && (
+                              <span className="prediction-injury-badge">Blessé</span>
+                            )}
+                          </div>
+                        </td>
+                        <td>{joueur.equipe}</td><td>{joueur.position}</td><td>{joueur.matchsPredits}</td><td>{joueur.butsPredits}</td><td>{joueur.assistancesPredites}</td><td>{joueur.pointsPredits}</td><td>{joueur.valeurMinimale} $</td><td>{selection ? `${selection.selectionnePar} - ${selection.prixPaye} $` : joueur.statut === "Sélectionné" ? `${joueur.selectionnePar} - ${joueur.prixPaye} $` : joueur.statut}</td>{peutProposer && <td>{!selection && joueur.statut === "Disponible" && <button className="small-button" onClick={() => choisirDepuisListe({ id: choixId, nhlId: Number(joueur.nhlId || 0), type: joueur.position === "D" ? "Défenseur" : "Attaquant", nom: joueur.nom, equipe: joueur.equipe, rang: Number(joueur.rang || 0), valeurMinimale: Number(joueur.valeurMinimale || 0), matchsPredits: Number(joueur.matchsPredits || 0), butsPredits: Number(joueur.butsPredits || 0), assistancesPredites: Number(joueur.assistancesPredites || 0), pointsPredits: Number(joueur.pointsPredits || 0), statut: joueur.statut })}>Choisir</button>}</td>}</tr>;
               })}</tbody>
             </table></div>
           </>
@@ -418,7 +409,20 @@ export default function DG({
           <><h3>Liste des gardiens</h3><input type="text" placeholder="Rechercher un gardien..." value={rechercheGardien} onChange={(e) => setRechercheGardien(e.target.value)} className="search-input" />
             <div className="list-filter-bar"><label className="availability-filter"><input type="checkbox" checked={gardiensDisponiblesSeulement} onChange={(e) => setGardiensDisponiblesSeulement(e.target.checked)} /><span>Afficher les gardiens disponibles seulement</span></label><span className="filter-result-count">{gardiensFiltres.length} gardien{gardiensFiltres.length > 1 ? "s" : ""}</span></div>
             <div className="table-container dg-goalies-table"><table><thead><tr><th>Rang</th><th>Nom</th><th>Équipe</th><th>MJ</th><th>V</th><th>D</th><th>DP</th><th>BL</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
-              <tbody>{gardiensFiltres.map((gardien) => { const choixId = `gardien-${gardien.id}`; const selection = obtenirSelectionChoix(choixId); return <tr key={gardien.id}><td>{gardien.rang}</td><td>{gardien.nom}</td><td>{gardien.equipe}</td><td>{gardien.matchsPredits}</td><td>{gardien.victoiresPredites}</td><td>{gardien.defaitesPredites}</td><td>{gardien.defaitesProlongationPredites}</td><td>{gardien.blanchissagesPredits}</td><td>{gardien.pointsPredits}</td><td>{gardien.valeurMinimale} $</td><td>{selection ? `${selection.selectionnePar} - ${selection.prixPaye} $` : gardien.statut === "Sélectionné" ? `${gardien.selectionnePar} - ${gardien.prixPaye} $` : gardien.statut}</td>{peutProposer && <td>{!selection && gardien.statut === "Disponible" && <button className="small-button" onClick={() => choisirDepuisListe({ id: choixId, nhlId: gardien.nhlId, type: "Gardien", nom: gardien.nom, equipe: gardien.equipe, rang: gardien.rang, valeurMinimale: gardien.valeurMinimale, pointsPredits: gardien.pointsPredits, pointsPoolPredits: gardien.pointsPoolPredits, matchsPredits: gardien.matchsPredits, victoiresPredites: gardien.victoiresPredites, defaitesPredites: gardien.defaitesPredites, defaitesProlongationPredites: gardien.defaitesProlongationPredites, blanchissagesPredits: gardien.blanchissagesPredits, butsPredits: gardien.butsPredits, assistancesPredites: gardien.assistancesPredites, blesse: gardien.blesse === true, delta: null, statut: gardien.statut })}>Choisir</button>}</td>}</tr>; })}</tbody>
+              <tbody>{gardiensFiltres.map((gardien) => { const choixId = `gardien-${gardien.id}`; const selection = obtenirSelectionChoix(choixId); return <tr
+                        key={gardien.id}
+                        className={gardien.blesse === true ? "prediction-injured-row" : ""}
+                      >
+                        <td>{gardien.rang}</td>
+                        <td>
+                          <div className="prediction-name-cell">
+                            <span>{gardien.nom}</span>
+                            {gardien.blesse === true && (
+                              <span className="prediction-injury-badge">Blessé</span>
+                            )}
+                          </div>
+                        </td>
+                        <td>{gardien.equipe}</td><td>{gardien.matchsPredits}</td><td>{gardien.victoiresPredites}</td><td>{gardien.defaitesPredites}</td><td>{gardien.defaitesProlongationPredites}</td><td>{gardien.blanchissagesPredits}</td><td>{gardien.pointsPredits}</td><td>{gardien.valeurMinimale} $</td><td>{selection ? `${selection.selectionnePar} - ${selection.prixPaye} $` : gardien.statut === "Sélectionné" ? `${gardien.selectionnePar} - ${gardien.prixPaye} $` : gardien.statut}</td>{peutProposer && <td>{!selection && gardien.statut === "Disponible" && <button className="small-button" onClick={() => choisirDepuisListe({ id: choixId, nhlId: gardien.nhlId, type: "Gardien", nom: gardien.nom, equipe: gardien.equipe, rang: gardien.rang, valeurMinimale: gardien.valeurMinimale, pointsPredits: gardien.pointsPredits, pointsPoolPredits: gardien.pointsPoolPredits, matchsPredits: gardien.matchsPredits, victoiresPredites: gardien.victoiresPredites, defaitesPredites: gardien.defaitesPredites, defaitesProlongationPredites: gardien.defaitesProlongationPredites, blanchissagesPredits: gardien.blanchissagesPredits, butsPredits: gardien.butsPredits, assistancesPredites: gardien.assistancesPredites, statut: gardien.statut })}>Choisir</button>}</td>}</tr>; })}</tbody>
             </table></div>
           </>
         )}
