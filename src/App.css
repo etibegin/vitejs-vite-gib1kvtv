@@ -1225,3 +1225,109 @@
     border-radius: 8px;
   }
 }
+
+/* =========================================================
+   AFFICHAGE DES BLESSURES
+   Ordinateur : ligne rouge + pastille
+   Téléphone : ligne rouge seulement
+   ========================================================= */
+
+/* Ligne complète d'un joueur ou gardien blessé */
+.dg-interface
+  .table-container
+  tbody
+  tr.prediction-injured-row,
+.dg-interface
+  .table-container
+  tbody
+  tr.prediction-injured-row:nth-child(even) {
+  background-color: #fee2e2 !important;
+}
+
+/* Survol de la ligne blessée */
+.dg-interface
+  .table-container
+  tbody
+  tr.prediction-injured-row:hover {
+  background-color: #fecaca !important;
+}
+
+/* Texte de toute la ligne */
+.dg-interface
+  .table-container
+  tbody
+  tr.prediction-injured-row
+  td {
+  color: #7f1d1d !important;
+  border-bottom-color: #fca5a5;
+}
+
+/* Conteneur du nom et de la pastille */
+.dg-interface .prediction-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Nom du joueur */
+.dg-interface
+  .prediction-name-cell
+  > span:first-child {
+  min-width: 0;
+  color: inherit;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* Pastille visible par défaut, donc en mode ordinateur */
+.dg-interface .prediction-injury-badge {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px 8px;
+
+  background-color: #dc2626;
+  color: #ffffff !important;
+
+  border: 1px solid #991b1b;
+  border-radius: 999px;
+
+  box-shadow:
+    0 2px 6px
+    rgba(127, 29, 29, 0.22);
+
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Protection explicite pour le mode ordinateur */
+.dg-list-mode-ordinateur
+  .prediction-injury-badge {
+  display: inline-flex !important;
+}
+
+/* En mode téléphone, seule la ligne rouge demeure */
+.dg-list-mode-telephone
+  .prediction-injury-badge {
+  display: none !important;
+}
+
+/* Le nom demeure compact sur téléphone */
+.dg-list-mode-telephone
+  .prediction-name-cell {
+  display: block;
+}
+
+/* Réaffirme le rouge en mode téléphone */
+.dg-list-mode-telephone
+  .prediction-injured-row
+  td {
+  color: #7f1d1d !important;
+}
