@@ -69,6 +69,12 @@ function convertirNombreSecurise(valeur: unknown) {
   return Number.isFinite(nombre) ? nombre : 0;
 }
 
+function normaliserDeltaNullable(valeur: unknown): number | null {
+  if (valeur === null || valeur === undefined || String(valeur).trim() === "") return null;
+  const delta = Number(valeur);
+  return Number.isFinite(delta) ? delta : null;
+}
+
 function calculerPointsProjetesEquipe(equipe: any[]) {
   const obtenirPoints = (choix: any) =>
     choix.type === "Gardien"
@@ -709,6 +715,13 @@ if (
       dgMeneurNom:
         propositionAApprouver.dgNom,
 
+      blesse: propositionAApprouver.blesse === true,
+      delta:
+        propositionAApprouver.type === "Attaquant" ||
+        propositionAApprouver.type === "Défenseur"
+          ? normaliserDeltaNullable(propositionAApprouver.delta)
+          : null,
+
       misesFermees: false,
     };
   
@@ -934,6 +947,12 @@ if (
       prixPaye: Number(enchereActive.miseActuelle || 0),
       pointsPredits: Number(enchereActive.pointsPredits || 0),
       pointsPoolPredits: Number(enchereActive.pointsPoolPredits || enchereActive.pointsPredits || 0),
+      blesse: enchereActive.blesse === true,
+      delta:
+        enchereActive.type === "Attaquant" ||
+        enchereActive.type === "Défenseur"
+          ? normaliserDeltaNullable(enchereActive.delta)
+          : null,
     };
   
     const nouvellesEquipesParDG = {
