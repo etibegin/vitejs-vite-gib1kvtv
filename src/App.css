@@ -1015,68 +1015,213 @@
   .dg-turn-pill { grid-column: 1 / -1; }
 }
 /* =========================================================
-   INJURED PLAYERS AND GOALIES IN DG PREDICTION LISTS
+   DG LIST DISPLAY MODE - RESTORED
+   Phone / computer switch for prediction lists
    ========================================================= */
-.dg-interface .table-container tbody tr.prediction-injured-row,
-.dg-interface .table-container tbody tr.prediction-injured-row:nth-child(even) {
-  background-color: #fee2e2;
-}
-
-.dg-interface .table-container tbody tr.prediction-injured-row:hover {
-  background-color: #fecaca;
-}
-
-.dg-interface .table-container tbody tr.prediction-injured-row td {
-  color: #7f1d1d;
-  border-bottom-color: #fca5a5;
-}
-
-.dg-interface .prediction-name-cell {
+.dg-list-display-control {
   display: flex;
   align-items: center;
-  gap: 7px;
-  min-width: 0;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 12px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
 }
 
-.dg-interface .prediction-name-cell > span:first-child {
+.dg-list-display-control > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dg-list-display-control span {
+  color: var(--slate-500);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dg-list-display-control strong {
+  color: var(--slate-900);
+  font-size: 16px;
+}
+
+.dg-list-display-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 4px;
+  background: #e9eef5;
+  border-radius: 10px;
+}
+
+.dg-list-display-buttons button {
+  min-height: 36px;
+  padding: 7px 12px;
+  background: transparent;
+  color: var(--slate-600);
+  font-size: 13px;
+}
+
+.dg-list-display-buttons button:hover {
+  background: #dbe3ee;
+}
+
+.dg-list-display-buttons .dg-list-display-active,
+.dg-list-display-buttons .dg-list-display-active:hover {
+  background: var(--navy);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 47, 108, 0.2);
+}
+
+.dg-list-mode-telephone .dg-players-table,
+.dg-list-mode-telephone .dg-goalies-table,
+.dg-list-mode-telephone .dg-nhl-teams-table {
+  max-height: none;
+  overflow-x: hidden;
+}
+
+.dg-list-mode-telephone .dg-players-table table,
+.dg-list-mode-telephone .dg-goalies-table table,
+.dg-list-mode-telephone .dg-nhl-teams-table table {
+  width: 100%;
   min-width: 0;
+  table-layout: fixed;
+  font-size: 12px;
+}
+
+.dg-list-mode-telephone .dg-players-table th,
+.dg-list-mode-telephone .dg-players-table td,
+.dg-list-mode-telephone .dg-goalies-table th,
+.dg-list-mode-telephone .dg-goalies-table td,
+.dg-list-mode-telephone .dg-nhl-teams-table th,
+.dg-list-mode-telephone .dg-nhl-teams-table td {
+  padding: 8px 5px;
+  white-space: normal;
   overflow-wrap: normal;
   word-break: normal;
+  vertical-align: middle;
 }
 
-.dg-interface .prediction-injury-badge {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  padding: 3px 7px;
-  background-color: #dc2626;
-  color: #ffffff;
-  border: 1px solid #b91c1c;
-  border-radius: 999px;
-  box-shadow: 0 2px 5px rgba(127, 29, 29, 0.18);
-  font-size: 10px;
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  white-space: nowrap;
+/* Players: Rank, Name, Team, PTS, Minimum, Status, Action. */
+.dg-list-mode-telephone .dg-players-table th:nth-child(4),
+.dg-list-mode-telephone .dg-players-table td:nth-child(4),
+.dg-list-mode-telephone .dg-players-table th:nth-child(5),
+.dg-list-mode-telephone .dg-players-table td:nth-child(5),
+.dg-list-mode-telephone .dg-players-table th:nth-child(6),
+.dg-list-mode-telephone .dg-players-table td:nth-child(6),
+.dg-list-mode-telephone .dg-players-table th:nth-child(7),
+.dg-list-mode-telephone .dg-players-table td:nth-child(7) {
+  display: none;
 }
 
-/* Preserve the red injury alert in compact phone mode. */
-.dg-list-mode-telephone .prediction-injured-row td:nth-child(2) {
-  color: #7f1d1d;
+.dg-list-mode-telephone .dg-players-table th:nth-child(1) { width: 9%; }
+.dg-list-mode-telephone .dg-players-table th:nth-child(2) { width: 28%; }
+.dg-list-mode-telephone .dg-players-table th:nth-child(3) { width: 10%; }
+.dg-list-mode-telephone .dg-players-table th:nth-child(8) { width: 10%; }
+.dg-list-mode-telephone .dg-players-table th:nth-child(9) { width: 12%; }
+.dg-list-mode-telephone .dg-players-table th:nth-child(10) { width: 18%; }
+.dg-list-mode-telephone .dg-players-table th:nth-child(11) { width: 13%; }
+
+/* Goalies: Rank, Name, Team, PTS, Minimum, Status, Action. */
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(4),
+.dg-list-mode-telephone .dg-goalies-table td:nth-child(4),
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(5),
+.dg-list-mode-telephone .dg-goalies-table td:nth-child(5),
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(6),
+.dg-list-mode-telephone .dg-goalies-table td:nth-child(6),
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(7),
+.dg-list-mode-telephone .dg-goalies-table td:nth-child(7),
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(8),
+.dg-list-mode-telephone .dg-goalies-table td:nth-child(8) {
+  display: none;
+}
+
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(1) { width: 9%; }
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(2) { width: 28%; }
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(3) { width: 10%; }
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(9) { width: 10%; }
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(10) { width: 12%; }
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(11) { width: 18%; }
+.dg-list-mode-telephone .dg-goalies-table th:nth-child(12) { width: 13%; }
+
+/* NHL teams: Rank, Team, PTS, Minimum, Status, Action. */
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(3),
+.dg-list-mode-telephone .dg-nhl-teams-table td:nth-child(3),
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(4),
+.dg-list-mode-telephone .dg-nhl-teams-table td:nth-child(4),
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(5),
+.dg-list-mode-telephone .dg-nhl-teams-table td:nth-child(5),
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(6),
+.dg-list-mode-telephone .dg-nhl-teams-table td:nth-child(6) {
+  display: none;
+}
+
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(1) { width: 10%; }
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(2) { width: 30%; }
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(7) { width: 13%; }
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(8) { width: 14%; }
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(9) { width: 20%; }
+.dg-list-mode-telephone .dg-nhl-teams-table th:nth-child(10) { width: 13%; }
+
+.dg-list-mode-telephone .small-button {
+  width: 100%;
+  min-height: 34px;
+  padding: 6px 5px;
+  font-size: 11px;
+}
+
+.dg-list-mode-telephone .dg-players-table td:nth-child(2),
+.dg-list-mode-telephone .dg-goalies-table td:nth-child(2),
+.dg-list-mode-telephone .dg-nhl-teams-table td:nth-child(2) {
+  color: var(--slate-900);
+  font-weight: 800;
+}
+
+.dg-list-mode-telephone .dg-players-table td:nth-child(8),
+.dg-list-mode-telephone .dg-goalies-table td:nth-child(9),
+.dg-list-mode-telephone .dg-nhl-teams-table td:nth-child(7) {
+  color: #5b21b6;
+  font-weight: 950;
+}
+
+/* On phones, injury is shown by the red row only. */
+.dg-list-mode-telephone .prediction-injury-badge {
+  display: none;
+}
+
+.dg-list-mode-telephone .prediction-injured-row td,
+.dg-list-mode-telephone .prediction-injured-row td:nth-child(2),
+.dg-list-mode-telephone .prediction-injured-row td:nth-child(8),
+.dg-list-mode-telephone .prediction-injured-row td:nth-child(9) {
+  color: #7f1d1d !important;
+}
+
+.dg-list-mode-telephone .prediction-name-cell {
+  display: block;
 }
 
 @media (max-width: 700px) {
-  .dg-interface .prediction-name-cell {
-    align-items: flex-start;
+  .dg-list-display-control {
+    align-items: stretch;
     flex-direction: column;
-    gap: 4px;
   }
 
-  .dg-interface .prediction-injury-badge {
-    padding: 2px 5px;
-    font-size: 9px;
+  .dg-list-display-buttons,
+  .dg-list-display-buttons button {
+    width: 100%;
+  }
+
+  .dg-interface > section,
+  .dg-interface .tabs {
+    margin-inline: 8px;
+  }
+
+  .dg-list-mode-telephone .table-container {
+    border-radius: 8px;
   }
 }
