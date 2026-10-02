@@ -1331,3 +1331,113 @@
   td {
   color: #7f1d1d !important;
 }
+/* =========================================================
+   PREDICTION LIST FILTERS AND ROW COLORS
+   Priority: selected > injured > defenseman > default
+   ========================================================= */
+.player-list-filters {
+  align-items: center;
+}
+
+.player-position-filter {
+  display: inline-grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 4px;
+  padding: 4px;
+  background: #e9eef5;
+  border-radius: 9px;
+}
+
+.player-position-filter button {
+  min-height: 34px;
+  padding: 7px 11px;
+  background: transparent;
+  color: var(--slate-600);
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.player-position-filter button:hover {
+  background: #dbe3ee;
+}
+
+.player-position-filter .player-position-filter-active,
+.player-position-filter .player-position-filter-active:hover {
+  background: var(--navy);
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 47, 108, 0.2);
+}
+
+/* Defensemen are pale blue when they are neither selected nor injured. */
+.dg-interface .table-container tbody tr.prediction-defense-row,
+.dg-interface .table-container tbody tr.prediction-defense-row:nth-child(even),
+.dg-interface .table-container tbody tr.prediction-defense-row td {
+  background-color: #e0f2fe !important;
+  color: #0c4a6e !important;
+  border-bottom-color: #bae6fd;
+}
+
+.dg-interface .table-container tbody tr.prediction-defense-row:hover,
+.dg-interface .table-container tbody tr.prediction-defense-row:hover td {
+  background-color: #bae6fd !important;
+}
+
+/* Selected players, goalies and NHL teams always have the highest priority. */
+.dg-interface .table-container tbody tr.prediction-selected-row,
+.dg-interface .table-container tbody tr.prediction-selected-row:nth-child(even),
+.dg-interface .table-container tbody tr.prediction-selected-row td {
+  background-color: #dcfce7 !important;
+  color: #166534 !important;
+  border-bottom-color: #86efac;
+}
+
+.dg-interface .table-container tbody tr.prediction-selected-row:hover,
+.dg-interface .table-container tbody tr.prediction-selected-row:hover td {
+  background-color: #bbf7d0 !important;
+}
+
+/* Keep the previously defined injury color between selected and defenseman. */
+.dg-interface .table-container tbody tr.prediction-injured-row,
+.dg-interface .table-container tbody tr.prediction-injured-row:nth-child(even),
+.dg-interface .table-container tbody tr.prediction-injured-row td {
+  background-color: #fee2e2 !important;
+  color: #7f1d1d !important;
+  border-bottom-color: #fca5a5;
+}
+
+.dg-interface .table-container tbody tr.prediction-injured-row:hover,
+.dg-interface .table-container tbody tr.prediction-injured-row:hover td {
+  background-color: #fecaca !important;
+}
+
+/* Phone mode: row colors remain visible, while the injury badge stays hidden. */
+.dg-list-mode-telephone .prediction-defense-row td {
+  color: #0c4a6e !important;
+}
+
+.dg-list-mode-telephone .prediction-selected-row td {
+  color: #166534 !important;
+}
+
+.dg-list-mode-telephone .prediction-injured-row td {
+  color: #7f1d1d !important;
+}
+
+@media (max-width: 700px) {
+  .player-list-filters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .player-position-filter {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .player-position-filter button {
+    width: 100%;
+    padding-inline: 5px;
+    font-size: 11px;
+  }
+}
