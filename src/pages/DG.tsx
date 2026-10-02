@@ -38,6 +38,7 @@ const EMPLACEMENTS_EQUIPE = [
 
 const JOUEURS_PAR_PAGE = 50;
 type ModeAffichageListes = "telephone" | "ordinateur";
+type FiltrePositionJoueur = "tous" | "attaquants" | "defenseurs";
 
 export default function DG({
   dg,
@@ -60,6 +61,8 @@ export default function DG({
   const [rechercheGardien, setRechercheGardien] = useState("");
   const [rechercheEquipe, setRechercheEquipe] = useState("");
   const [joueursDisponiblesSeulement, setJoueursDisponiblesSeulement] = useState(false);
+  const [filtrePositionJoueur, setFiltrePositionJoueur] =
+    useState<FiltrePositionJoueur>("tous");
   const [gardiensDisponiblesSeulement, setGardiensDisponiblesSeulement] = useState(false);
   const [equipesDisponiblesSeulement, setEquipesDisponiblesSeulement] = useState(false);
   const [pageJoueurs, setPageJoueurs] = useState(1);
@@ -89,7 +92,17 @@ export default function DG({
       String(joueur.equipe || "").toLowerCase().includes(recherche) ||
       String(joueur.position || "").toLowerCase().includes(recherche);
     const estDisponible = !selection && joueur.statut === "Disponible";
-    return correspondRecherche && (!joueursDisponiblesSeulement || estDisponible);
+    const estDefenseur = String(joueur.position || "").toUpperCase() === "D";
+    const correspondPosition =
+      filtrePositionJoueur === "tous" ||
+      (filtrePositionJoueur === "defenseurs" && estDefenseur) ||
+      (filtrePositionJoueur === "attaquants" && !estDefenseur);
+
+    return (
+      correspondRecherche &&
+      correspondPosition &&
+      (!joueursDisponiblesSeulement || estDisponible)
+    );
   });
 
   const nombrePagesJoueurs = Math.max(1, Math.ceil(joueursFiltres.length / JOUEURS_PAR_PAGE));
@@ -100,7 +113,7 @@ export default function DG({
 
   useEffect(() => {
     setPageJoueurs(1);
-  }, [rechercheJoueur, joueursDisponiblesSeulement]);
+  }, [rechercheJoueur, joueursDisponiblesSeulement, filtrePositionJoueur]);
 
   useEffect(() => {
     if (pageJoueurs > nombrePagesJoueurs) {
@@ -166,6 +179,41 @@ export default function DG({
       if (!posteEstOccupe(`Substitut ${i}`)) return true;
     }
     return false;
+  }
+
+  function choixEstSelectionne(
+    selection: any,
+    statut: unknown
+  ) {
+    return (
+      Boolean(selection) ||
+      String(statut || "").toLowerCase() === "sélectionné" ||
+      String(statut || "").toLowerCase() === "selectionne"
+    );
+  }
+
+  function obtenirClasseLignePrediction({
+    estSelectionne,
+    estBlesse = false,
+    estDefenseur = false,
+  }: {
+    estSelectionne: boolean;
+    estBlesse?: boolean;
+    estDefenseur?: boolean;
+  }) {
+    if (estSelectionne) {
+      return "prediction-selected-row";
+    }
+
+    if (estBlesse) {
+      return "prediction-injured-row";
+    }
+
+    if (estDefenseur) {
+      return "prediction-defense-row";
+    }
+
+    return "";
   }
 
   function normaliserDeltaNullable(
@@ -401,7 +449,40 @@ export default function DG({
           <>
             <h3>Liste de prédiction - Joueurs</h3>
             <input type="text" placeholder="Rechercher un joueur..." value={rechercheJoueur} onChange={(e) => setRechercheJoueur(e.target.value)} className="search-input" />
-            <div className="list-filter-bar"><label className="availability-filter"><input type="checkbox" checked={joueursDisponiblesSeulement} onChange={(e) => setJoueursDisponiblesSeulement(e.target.checked)} /><span>Afficher les joueurs disponibles seulement</span></label></div>
+            <div className="list-filter-bar player-list-filters">
+              <label className="availability-filter">
+                <input
+                  type="checkbox"
+                  checked={joueursDisponiblesSeulement}
+                  onChange={(e) => setJoueursDisponiblesSeulement(e.target.checked)}
+                />
+                <span>Afficher les joueurs disponibles seulement</span>
+              </label>
+
+              <div className="player-position-filter" role="group" aria-label="Filtrer les joueurs par position">
+                <button
+                  type="button"
+                  className={filtrePositionJoueur === "tous" ? "player-position-filter-active" : ""}
+                  onClick={() => setFiltrePositionJoueur("tous")}
+                >
+                  Tous
+                </button>
+                <button
+                  type="button"
+                  className={filtrePositionJoueur === "attaquants" ? "player-position-filter-active" : ""}
+                  onClick={() => setFiltrePositionJoueur("attaquants")}
+                >
+                  Attaquants
+                </button>
+                <button
+                  type="button"
+                  className={filtrePositionJoueur === "defenseurs" ? "player-position-filter-active" : ""}
+                  onClick={() => setFiltrePositionJoueur("defenseurs")}
+                >
+                  Défenseurs
+                </button>
+              </div>
+            </div>
             <div className="pagination-bar">
               <button onClick={() => setPageJoueurs((p) => Math.max(1, p - 1))} disabled={pageJoueurs === 1}>Précédent</button>
               <label className="page-selector"><span>Page</span><select value={pageJoueurs} onChange={(e) => setPageJoueurs(Number(e.target.value))}>{Array.from({ length: nombrePagesJoueurs }, (_, i) => i + 1).map((p) => <option key={p} value={p}>{p}</option>)}</select><span>sur {nombrePagesJoueurs}</span></label>
@@ -412,15 +493,23 @@ export default function DG({
               <tbody>{joueursPageCourante.map((joueur) => {
                 const choixId = `joueur-${joueur.id}`;
                 const selection = obtenirSelectionChoix(choixId);
+                const estSelectionne = choixEstSelectionne(selection, joueur.statut);
+                const estDefenseur = String(joueur.position || "").toUpperCase() === "D";
+                const classeLigne = obtenirClasseLignePrediction({
+                  estSelectionne,
+                  estBlesse: joueur.blesse === true,
+                  estDefenseur,
+                });
+
                 return <tr
                         key={joueur.id}
-                        className={joueur.blesse === true ? "prediction-injured-row" : ""}
+                        className={classeLigne}
                       >
                         <td>{joueur.rang}</td>
                         <td>
                           <div className="prediction-name-cell">
                             <span>{joueur.nom}</span>
-                            {joueur.blesse === true && (
+                            {joueur.blesse === true && !estSelectionne && (
                               <span className="prediction-injury-badge">Blessé</span>
                             )}
                           </div>
@@ -435,15 +524,24 @@ export default function DG({
           <><h3>Liste des gardiens</h3><input type="text" placeholder="Rechercher un gardien..." value={rechercheGardien} onChange={(e) => setRechercheGardien(e.target.value)} className="search-input" />
             <div className="list-filter-bar"><label className="availability-filter"><input type="checkbox" checked={gardiensDisponiblesSeulement} onChange={(e) => setGardiensDisponiblesSeulement(e.target.checked)} /><span>Afficher les gardiens disponibles seulement</span></label><span className="filter-result-count">{gardiensFiltres.length} gardien{gardiensFiltres.length > 1 ? "s" : ""}</span></div>
             <div className="table-container dg-goalies-table"><table><thead><tr><th>Rang</th><th>Nom</th><th>Équipe</th><th>MJ</th><th>V</th><th>D</th><th>DP</th><th>BL</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
-              <tbody>{gardiensFiltres.map((gardien) => { const choixId = `gardien-${gardien.id}`; const selection = obtenirSelectionChoix(choixId); return <tr
+              <tbody>{gardiensFiltres.map((gardien) => {
+                const choixId = `gardien-${gardien.id}`;
+                const selection = obtenirSelectionChoix(choixId);
+                const estSelectionne = choixEstSelectionne(selection, gardien.statut);
+                const classeLigne = obtenirClasseLignePrediction({
+                  estSelectionne,
+                  estBlesse: gardien.blesse === true,
+                });
+
+                return <tr
                         key={gardien.id}
-                        className={gardien.blesse === true ? "prediction-injured-row" : ""}
+                        className={classeLigne}
                       >
                         <td>{gardien.rang}</td>
                         <td>
                           <div className="prediction-name-cell">
                             <span>{gardien.nom}</span>
-                            {gardien.blesse === true && (
+                            {gardien.blesse === true && !estSelectionne && (
                               <span className="prediction-injury-badge">Blessé</span>
                             )}
                           </div>
@@ -457,7 +555,17 @@ export default function DG({
           <><h3>Liste des équipes</h3><input type="text" placeholder="Rechercher une équipe..." value={rechercheEquipe} onChange={(e) => setRechercheEquipe(e.target.value)} className="search-input" />
             <div className="list-filter-bar"><label className="availability-filter"><input type="checkbox" checked={equipesDisponiblesSeulement} onChange={(e) => setEquipesDisponiblesSeulement(e.target.checked)} /><span>Afficher les équipes disponibles seulement</span></label><span className="filter-result-count">{equipesFiltrees.length} équipe{equipesFiltrees.length > 1 ? "s" : ""}</span></div>
             <div className="table-container dg-nhl-teams-table"><table><thead><tr><th>Rang</th><th>Équipe</th><th>MJ</th><th>V</th><th>D</th><th>DP</th><th>PTS</th><th>Min</th><th>Statut</th>{peutProposer && <th>Action</th>}</tr></thead>
-              <tbody>{equipesFiltrees.map((equipe) => { const choixId = `equipe-${equipe.id}`; const selection = obtenirSelectionChoix(choixId); return <tr key={equipe.id}><td>{equipe.rang}</td><td>{equipe.nom}</td><td>{equipe.matchsPredits}</td><td>{equipe.victoiresPredites}</td><td>{equipe.defaitesPredites}</td><td>{equipe.defaitesProlongationPredites}</td><td>{equipe.pointsPredits}</td><td>{equipe.valeurMinimale} $</td><td>{selection ? `${selection.selectionnePar} - ${selection.prixPaye} $` : equipe.statut === "Sélectionné" ? `${equipe.selectionnePar} - ${equipe.prixPaye} $` : equipe.statut}</td>{peutProposer && <td>{!selection && equipe.statut === "Disponible" && <button className="small-button" onClick={() => choisirDepuisListe({ id: choixId, nhlId: equipe.nhlId, type: "Équipe", nom: equipe.nom, equipe: "", rang: equipe.rang, valeurMinimale: equipe.valeurMinimale, pointsPredits: equipe.pointsPredits, matchsPredits: equipe.matchsPredits, victoiresPredites: equipe.victoiresPredites, defaitesPredites: equipe.defaitesPredites, defaitesProlongationPredites: equipe.defaitesProlongationPredites, statut: equipe.statut })}>Choisir</button>}</td>}</tr>; })}</tbody>
+              <tbody>{equipesFiltrees.map((equipe) => {
+                const choixId = `equipe-${equipe.id}`;
+                const selection = obtenirSelectionChoix(choixId);
+                const estSelectionne = choixEstSelectionne(selection, equipe.statut);
+
+                return <tr
+                  key={equipe.id}
+                  className={
+                    obtenirClasseLignePrediction({ estSelectionne })
+                  }
+                ><td>{equipe.rang}</td><td>{equipe.nom}</td><td>{equipe.matchsPredits}</td><td>{equipe.victoiresPredites}</td><td>{equipe.defaitesPredites}</td><td>{equipe.defaitesProlongationPredites}</td><td>{equipe.pointsPredits}</td><td>{equipe.valeurMinimale} $</td><td>{selection ? `${selection.selectionnePar} - ${selection.prixPaye} $` : equipe.statut === "Sélectionné" ? `${equipe.selectionnePar} - ${equipe.prixPaye} $` : equipe.statut}</td>{peutProposer && <td>{!selection && equipe.statut === "Disponible" && <button className="small-button" onClick={() => choisirDepuisListe({ id: choixId, nhlId: equipe.nhlId, type: "Équipe", nom: equipe.nom, equipe: "", rang: equipe.rang, valeurMinimale: equipe.valeurMinimale, pointsPredits: equipe.pointsPredits, matchsPredits: equipe.matchsPredits, victoiresPredites: equipe.victoiresPredites, defaitesPredites: equipe.defaitesPredites, defaitesProlongationPredites: equipe.defaitesProlongationPredites, statut: equipe.statut })}>Choisir</button>}</td>}</tr>; })}</tbody>
             </table></div>
           </>
         )}
