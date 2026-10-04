@@ -1441,3 +1441,181 @@
     font-size: 11px;
   }
 }
+
+/* =========================================================
+   TV BETWEEN AUCTIONS - 15 DG FULL-SCREEN FIT
+   ========================================================= */
+.tv-dg-board-ultra-compact .tv-board-title {
+  min-height: 32px;
+  padding: 4px 14px;
+}
+
+.tv-dg-board-ultra-compact .tv-board-title > div {
+  gap: 7px;
+}
+
+.tv-dg-board-ultra-compact .tv-board-title span {
+  font-size: clamp(8px, 0.55vw, 10px);
+}
+
+.tv-dg-board-ultra-compact .tv-board-title strong {
+  font-size: clamp(14px, 1vw, 19px);
+}
+
+.tv-dg-board-ultra-compact .tv-board-legend {
+  padding: 3px 7px;
+}
+
+.tv-dg-board-ultra-compact .tv-dg-table-wrapper {
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.display-root .tv-dg-board-ultra-compact table.tv-dg-table {
+  height: 100%;
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-dg-table thead {
+  height: 26px;
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-dg-table tbody {
+  height: calc(100% - 26px);
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-dg-table tbody tr {
+  height: calc(100% / 15);
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-dg-table th {
+  height: 26px;
+  padding: 2px 5px;
+  font-size: clamp(8px, 0.58vw, 11px);
+  line-height: 1;
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-dg-table td {
+  padding: 1px 5px;
+  font-size: clamp(9px, 0.7vw, 13px);
+  line-height: 1;
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-rank-cell span {
+  width: clamp(18px, 1.45vw, 25px);
+  height: clamp(18px, 1.45vw, 25px);
+  font-size: clamp(8px, 0.62vw, 11px);
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-dg-name-cell strong,
+.display-root .tv-dg-board-ultra-compact .tv-projected-points-cell strong {
+  font-size: clamp(9px, 0.73vw, 13px);
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-dg-table small {
+  font-size: 0.68em;
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-turn-badge {
+  margin-left: 4px;
+  padding: 2px 5px;
+  font-size: clamp(7px, 0.48vw, 9px);
+  line-height: 1;
+}
+
+.display-root .tv-dg-board-ultra-compact .tv-status-badge {
+  min-width: 43px;
+  padding: 2px 5px;
+  font-size: clamp(7px, 0.5vw, 9px);
+  line-height: 1;
+}
+
+/* Give maximum vertical space to the 15-row board. */
+.tv-between-screen:has(.tv-dg-board-ultra-compact) {
+  grid-template-rows: 58px minmax(0, 1fr) 58px;
+  gap: 7px;
+  padding-block: 8px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-status-header {
+  min-height: 58px;
+  padding: 6px 14px;
+  border-radius: 12px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-status-dot {
+  width: 10px;
+  height: 10px;
+  flex-basis: 10px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-status-live strong {
+  font-size: clamp(14px, 1.1vw, 20px);
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-header-stats > div {
+  min-width: 92px;
+  padding: 5px 10px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-header-stats span {
+  font-size: 9px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-header-stats strong {
+  font-size: 17px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-last-result {
+  min-height: 58px;
+  border-radius: 12px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-last-result > div {
+  gap: 1px;
+  padding: 5px 12px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-last-result span {
+  font-size: 9px;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-last-result strong {
+  font-size: clamp(12px, 1vw, 18px);
+  line-height: 1;
+}
+
+.tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-last-result-price strong {
+  font-size: clamp(18px, 1.55vw, 27px);
+}
+
+/* Extra protection for a 1366 x 768 television or browser viewport. */
+@media screen and (max-height: 820px) {
+  .tv-between-screen:has(.tv-dg-board-ultra-compact) {
+    grid-template-rows: 50px minmax(0, 1fr) 50px;
+    gap: 5px;
+    padding-block: 6px;
+  }
+
+  .tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-status-header,
+  .tv-between-screen:has(.tv-dg-board-ultra-compact) .tv-last-result {
+    min-height: 50px;
+  }
+
+  .tv-dg-board-ultra-compact .tv-board-title {
+    min-height: 27px;
+    padding-block: 2px;
+  }
+
+  .display-root .tv-dg-board-ultra-compact .tv-dg-table thead {
+    height: 23px;
+  }
+
+  .display-root .tv-dg-board-ultra-compact .tv-dg-table tbody {
+    height: calc(100% - 23px);
+  }
+
+  .display-root .tv-dg-board-ultra-compact .tv-dg-table th {
+    height: 23px;
+  }
+}
