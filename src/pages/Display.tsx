@@ -444,7 +444,9 @@ export default function Display({
 
           <section
             className={
-              dgsTriesSelonOrdre.length > 12
+              dgsTriesSelonOrdre.length >= 15
+                ? "tv-dg-board tv-dg-board-ultra-compact"
+                : dgsTriesSelonOrdre.length >= 12
                 ? "tv-dg-board tv-dg-board-compact"
                 : "tv-dg-board"
             }
